@@ -1,7 +1,8 @@
 // How many resources to show before the "Show more" button.
 const PAGE_SIZE = 9;
 
-const state = { query: "", category: "all", limit: PAGE_SIZE };
+// No category is selected at first, so nothing shows until someone picks one or searches.
+const state = { query: "", category: null, limit: PAGE_SIZE };
 
 const els = {
   search: document.getElementById("search"),
@@ -34,7 +35,7 @@ function renderChips() {
 }
 
 function matches(resource) {
-  if (state.category !== "all" && resource.category !== state.category) return false;
+  if (state.category && state.category !== "all" && resource.category !== state.category) return false;
   if (!state.query) return true;
   const haystack = [resource.name, resource.notes, resource.address, CATEGORIES[resource.category]]
     .filter(Boolean)
@@ -59,6 +60,15 @@ function renderCard(r) {
 }
 
 function render() {
+  els.chips.querySelectorAll(".chip").forEach((chip) => {
+    chip.setAttribute("aria-pressed", String(chip.dataset.category === state.category));
+  });
+  if (!state.category && !state.query) {
+    els.cards.innerHTML = `<div class="empty prompt"><p><strong>Choose a category above, or search, to see resources.</strong></p><p>Not sure where to start? Dial <a href="tel:211">211</a> to talk with someone who can help.</p></div>`;
+    els.count.textContent = `${RESOURCES.length} resources available`;
+    els.loadMore.hidden = true;
+    return;
+  }
   const results = RESOURCES.filter(matches);
   const shown = results.slice(0, state.limit);
   els.cards.innerHTML = results.length
@@ -70,9 +80,6 @@ function render() {
   const remaining = results.length - shown.length;
   els.loadMore.hidden = remaining <= 0;
   els.loadMore.textContent = `Show all ${results.length} (${remaining} more)`;
-  els.chips.querySelectorAll(".chip").forEach((chip) => {
-    chip.setAttribute("aria-pressed", String(chip.dataset.category === state.category));
-  });
 }
 
 els.search.addEventListener("input", (e) => {
@@ -84,7 +91,8 @@ els.search.addEventListener("input", (e) => {
 els.chips.addEventListener("click", (e) => {
   const chip = e.target.closest(".chip");
   if (!chip) return;
-  state.category = chip.dataset.category;
+  // Tapping the selected category again clears it.
+  state.category = state.category === chip.dataset.category ? null : chip.dataset.category;
   state.limit = PAGE_SIZE;
   render();
 });
