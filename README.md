@@ -8,8 +8,9 @@ A static site with no build step and no dependencies: open `index.html` in a bro
 
 - `index.html` — page content (hero, resource directory, about, Stand With Pride campaign, get involved, donate)
 - `resources.js` — **the resource directory data**; edit this to add, change or remove listings
-- `script.js` — search/filter logic and mobile menu. Set `CONTACT_EMAIL` at the top to show a contact link.
+- `script.js` — search/filter logic and mobile menu
 - `styles.css` — styles (includes dark mode)
+- `assets/` — logo (from the CTNCR Linktree) and favicon
 
 ## Publishing with GitHub Pages
 

@@ -1,6 +1,3 @@
-// Set this to the organization's public email to show a contact link.
-const CONTACT_EMAIL = "";
-
 const state = { query: "", category: "all" };
 
 const els = {
@@ -103,13 +100,6 @@ nav.addEventListener("click", (e) => {
     nav.classList.remove("open");
   }
 });
-
-if (CONTACT_EMAIL) {
-  const link = document.getElementById("contact-email");
-  link.href = "mailto:" + CONTACT_EMAIL;
-  link.textContent = CONTACT_EMAIL;
-  document.getElementById("contact-line").hidden = false;
-}
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
