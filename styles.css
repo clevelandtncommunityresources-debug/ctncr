@@ -157,6 +157,9 @@ a { color: var(--brand); }
 .card-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: auto; padding-top: 10px; font-weight: 600; font-size: 0.93rem; }
 .tag { align-self: flex-start; font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); }
 .empty { grid-column: 1 / -1; padding: 32px; text-align: center; background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); }
+.empty p:last-child { margin-bottom: 0; }
+.empty.prompt { color: var(--muted); }
+.empty.prompt strong { color: var(--text); }
 .fine-print { font-size: 0.85rem; color: var(--muted); margin-top: 24px; }
 
 /* Partner: Cleveland-Bradley Free Press */
