@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cleveland, TN Community Resources</title>
+  <meta name="description" content="Cleveland, TN Community Resources (CTNCR) helps neighbors in Cleveland and Bradley County find food, housing, health care and support.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f5f4a'/%3E%3Cpath d='M16 24s-8-4.6-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 24 14c0 5.4-8 10-8 10z' fill='%23f6c453'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="crisis-bar" role="region" aria-label="Emergency help">
+    <div class="wrap">
+      <strong>Need help right now?</strong>
+      <span>Emergency: <a href="tel:911">911</a></span>
+      <span>Crisis line: <a href="tel:988">call or text 988</a></span>
+      <span>Local services: <a href="tel:211">dial 211</a></span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="CTNCR home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M16 24s-8-4.6-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 24 14c0 5.4-8 10-8 10z"/></svg>
+        <span><span class="brand-short">CTNCR</span><span class="brand-long">Cleveland, TN Community Resources</span></span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="#resources">Find help</a>
+        <a href="#about">About</a>
+        <a href="#pride">Pride</a>
+        <a href="#get-involved">Get involved</a>
+        <a class="btn btn-small" href="#donate">Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero-inner">
+        <div>
+          <p class="eyebrow">Cleveland &amp; Bradley County, Tennessee</p>
+          <h1>Every neighbor deserves a place to turn.</h1>
+          <p class="lede">CTNCR connects people in our community with food, shelter, health care, safety and support, and works toward a safer, more affirming Bradley County for everyone.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#resources">Find a resource</a>
+            <a class="btn btn-ghost" href="#donate">Support our work</a>
+          </div>
+        </div>
+        <ul class="quick-links" aria-label="Browse by need">
+          <li><a href="#resources" data-jump="food"><span aria-hidden="true">🍲</span>Food &amp; meals</a></li>
+          <li><a href="#resources" data-jump="housing"><span aria-hidden="true">🏠</span>Housing &amp; basics</a></li>
+          <li><a href="#resources" data-jump="health"><span aria-hidden="true">🩺</span>Health care</a></li>
+          <li><a href="#resources" data-jump="mental"><span aria-hidden="true">💬</span>Mental health</a></li>
+          <li><a href="#resources" data-jump="safety"><span aria-hidden="true">🛡️</span>Safety</a></li>
+          <li><a href="#resources" data-jump="lgbtq"><span aria-hidden="true">🏳️‍🌈</span>LGBTQ+</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="resources" aria-labelledby="resources-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="resources-title">Resource directory</h2>
+          <p>Search local and national services. Hours and programs change often, so please call ahead before you visit.</p>
+        </div>
+
+        <div class="filters">
+          <label class="search">
+            <span class="visually-hidden">Search resources</span>
+            <input type="search" id="search" placeholder="Search by name, service or address…" autocomplete="off">
+          </label>
+          <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+        </div>
+
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+        <div class="cards" id="cards"></div>
+
+        <p class="fine-print">Listings were compiled from public directories, including the
+          <a href="https://www.utc.edu/college-of-nursing/mobilemoc/our-services/community-resource-guide/bradley-county-community-resource-guide">UTC MobileMOC Bradley County guide</a>.
+          Something wrong or missing? <a href="#get-involved">Let us know</a>.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="about" aria-labelledby="about-title">
+      <div class="wrap two-col">
+        <div>
+          <h2 id="about-title">About CTNCR</h2>
+          <p>Cleveland, TN Community Resources is a neighbor-led nonprofit serving Cleveland and Bradley County. Finding help shouldn't mean calling ten numbers or knowing the right person. We gather what's available in one place, keep it current, and fill gaps where we can.</p>
+          <p>We believe dignity, safety and belonging are for everyone, regardless of income, background, faith, gender identity or who you love.</p>
+        </div>
+        <ul class="values">
+          <li><h3>Find</h3><p>A single, searchable directory of local help.</p></li>
+          <li><h3>Connect</h3><p>Warm referrals to the people and programs who can help.</p></li>
+          <li><h3>Affirm</h3><p>A safer, more welcoming Bradley County for all.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section pride" id="pride" aria-labelledby="pride-title">
+      <div class="wrap pride-inner">
+        <div>
+          <p class="eyebrow">Campaign</p>
+          <h2 id="pride-title">Stand With Pride of Cleveland, TN</h2>
+          <p>LGBTQ+ neighbors in Bradley County deserve to feel safe and supported at home. Our Stand With Pride campaign raises funds for a safer, more affirming community, and every gift counts.</p>
+          <a class="btn" href="https://givebutter.com/stand-with-pride-of-cleveland-tn-help-fund-a-safer-more-affirming-bradley-county-vewqfr">Give to Stand With Pride</a>
+        </div>
+        <div class="pride-card">
+          <h3>LGBTQ+ support, 24/7</h3>
+          <p><strong>The Trevor Project</strong><br><a href="tel:18664887386">1-866-488-7386</a> or text START to 678-678</p>
+          <p><strong>Trans Lifeline</strong><br><a href="tel:8775658860">(877) 565-8860</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="get-involved" aria-labelledby="involved-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="involved-title">Get involved</h2>
+          <p>This directory is only as good as the people who keep it up to date.</p>
+        </div>
+        <div class="involve-grid">
+          <article>
+            <h3>Volunteer</h3>
+            <p>Help verify listings, staff outreach tables, or share your skills in design, writing or translation.</p>
+          </article>
+          <article>
+            <h3>Add a resource</h3>
+            <p>Run a pantry, clinic, support group or program? Send us your details and we'll add you to the directory.</p>
+          </article>
+          <article>
+            <h3>Spread the word</h3>
+            <p>Share this site with a neighbor, church, school or workplace. Someone may need it today.</p>
+          </article>
+        </div>
+        <p class="contact-line" id="contact-line" hidden>Reach us at <a id="contact-email" href="#"></a>.</p>
+      </div>
+    </section>
+
+    <section class="section donate" id="donate" aria-labelledby="donate-title">
+      <div class="wrap donate-inner">
+        <h2 id="donate-title">Support CTNCR</h2>
+        <p>Your gift helps keep this directory free and up to date and funds direct support for neighbors in need.</p>
+        <a class="btn btn-light" href="https://givebutter.com/stand-with-pride-of-cleveland-tn-help-fund-a-safer-more-affirming-bradley-county-vewqfr">Donate now</a>
+        <p class="fine-print">Cleveland, TN Community Resources is a 501(c)(3) public charity, EIN 39-2502378. Donations are tax-deductible to the extent allowed by law.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Cleveland, TN Community Resources</strong><br>Serving Cleveland &amp; Bradley County, Tennessee</p>
+      <p>In an emergency, call <a href="tel:911">911</a>. For crisis support, call or text <a href="tel:988">988</a>.</p>
+      <p class="fine-print">&copy; <span id="year"></span> CTNCR. Listings are for information only and are not endorsements.</p>
+    </div>
+  </footer>
+
+  <script src="resources.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
