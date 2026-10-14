@@ -142,6 +142,9 @@ a { color: var(--brand); }
 }
 .chip[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
 .result-count { font-size: 0.9rem; color: var(--muted); }
+.load-more-wrap { display: flex; justify-content: center; margin-top: 20px; }
+.load-more-wrap .btn { cursor: pointer; font: inherit; font-weight: 600; }
+.load-more-wrap .btn[hidden] { display: none; }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
 .card {
