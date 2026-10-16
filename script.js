@@ -134,3 +134,212 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 renderChips();
 render();
+
+// ---- Shared date helpers ----
+
+const MONTHS = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+// Parse "YYYY-MM-DD" as a local date (new Date("2026-11-07") would be UTC midnight).
+function parseDate(str) {
+  const [y, m, d] = str.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function startOfToday() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
+function shortDate(date) {
+  return `${WEEKDAYS[date.getDay()].slice(0, 3)}, ${MONTHS[date.getMonth()].slice(0, 3)} ${date.getDate()}`;
+}
+
+// ---- Food calendar ----
+
+function servesOn(site, date) {
+  const rule = site.repeat;
+  if (!rule) return false;
+  if (rule.weekly) return rule.weekly.includes(date.getDay());
+  if (rule.dates) return rule.dates.includes(dateKey(date));
+  if (rule.monthly) {
+    if (date.getDay() !== rule.monthly.day) return false;
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    if (rule.monthly.week === -1) return date.getDate() + 7 > daysInMonth;
+    return Math.ceil(date.getDate() / 7) === rule.monthly.week;
+  }
+  return false;
+}
+
+const cal = {
+  grid: document.getElementById("cal-grid"),
+  title: document.getElementById("cal-title"),
+  sites: document.getElementById("cal-sites"),
+  month: new Date(startOfToday().getFullYear(), startOfToday().getMonth(), 1),
+};
+
+function renderCalendar() {
+  const today = startOfToday();
+  const year = cal.month.getFullYear();
+  const month = cal.month.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  cal.title.textContent = `${MONTHS[month]} ${year}`;
+
+  const cells = [];
+  for (let i = 0; i < cal.month.getDay(); i++) cells.push(`<li class="cal-blank" aria-hidden="true"></li>`);
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const open = FOOD_SCHEDULE.filter((site) => servesOn(site, date));
+    const classes = ["cal-day"];
+    if (date.getTime() === today.getTime()) classes.push("is-today");
+    if (date < today) classes.push("is-past");
+    if (!open.length) classes.push("is-empty");
+    const items = open.map((site) => `
+      <li class="cal-item kind-${site.kind}">
+        <a href="#site-${site.id}"><span class="cal-time">${escapeHtml(site.time)}</span> ${escapeHtml(site.short)}</a>
+      </li>`).join("");
+    cells.push(`
+      <li class="${classes.join(" ")}">
+        <span class="cal-num" aria-hidden="true">${day}</span>
+        <span class="cal-label">${shortDate(date)}${date.getTime() === today.getTime() ? " (today)" : ""}</span>
+        ${open.length ? `<ul class="cal-items">${items}</ul>` : `<span class="visually-hidden">Nothing scheduled</span>`}
+      </li>`);
+  }
+  cal.grid.innerHTML = cells.join("");
+}
+
+function renderFoodSites() {
+  const card = (site) => {
+    const links = [];
+    if (site.phone) links.push(`<a href="${telHref(site.phone)}">Call ${escapeHtml(site.phone)}</a>`);
+    if (site.address) links.push(`<a href="${mapHref(site.address)}" target="_blank" rel="noopener">Directions</a>`);
+    return `
+      <article class="card" id="site-${site.id}">
+        <span class="tag cal-key kind-${site.kind}">${escapeHtml(FOOD_KINDS[site.kind])}</span>
+        <h3>${escapeHtml(site.name)}</h3>
+        <p>${site.repeat ? "" : "<strong>Call for dates:</strong> "}${escapeHtml(site.when)}</p>
+        ${site.address ? `<p class="address">${escapeHtml(site.address)}</p>` : ""}
+        <div class="card-links">${links.join("")}</div>
+      </article>`;
+  };
+  // Sites with a regular schedule first, then the ones you have to call about.
+  const sorted = [...FOOD_SCHEDULE.filter((s) => s.repeat), ...FOOD_SCHEDULE.filter((s) => !s.repeat)];
+  cal.sites.innerHTML = sorted.map(card).join("");
+}
+
+function shiftMonth(delta) {
+  cal.month = new Date(cal.month.getFullYear(), cal.month.getMonth() + delta, 1);
+  renderCalendar();
+}
+document.getElementById("cal-prev").addEventListener("click", () => shiftMonth(-1));
+document.getElementById("cal-next").addEventListener("click", () => shiftMonth(1));
+document.getElementById("cal-today").addEventListener("click", () => {
+  const today = startOfToday();
+  cal.month = new Date(today.getFullYear(), today.getMonth(), 1);
+  renderCalendar();
+});
+
+renderCalendar();
+renderFoodSites();
+
+// ---- Community bulletin board ----
+
+function renderBoard() {
+  const board = document.getElementById("board");
+  const today = startOfToday();
+  const upcoming = EVENTS
+    .filter((e) => parseDate(e.endDate || e.date) >= today)
+    .sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+  if (!upcoming.length) {
+    board.innerHTML = `<div class="empty"><p><strong>No events posted right now.</strong></p><p>Know about something free coming up? Send it our way and we'll pin it here.</p></div>`;
+    return;
+  }
+
+  board.innerHTML = upcoming.map((e) => {
+    const start = parseDate(e.date);
+    let when = shortDate(start);
+    if (e.endDate && e.endDate !== e.date) when += ` – ${shortDate(parseDate(e.endDate))}`;
+    if (e.time) when += ` · ${e.time}`;
+    const where = [e.location, e.address].filter(Boolean).join(", ");
+    const links = [];
+    if (e.address) links.push(`<a href="${mapHref(e.address)}" target="_blank" rel="noopener">Directions</a>`);
+    if (e.url) links.push(`<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener">More info</a>`);
+    return `
+      <article class="note">
+        <div class="note-date" aria-hidden="true">
+          <span class="note-month">${MONTHS[start.getMonth()].slice(0, 3)}</span>
+          <span class="note-day">${start.getDate()}</span>
+        </div>
+        <div class="note-body">
+          <h3>${escapeHtml(e.title)}</h3>
+          <p class="note-when">${escapeHtml(when)}</p>
+          ${where ? `<p class="note-where">${escapeHtml(where)}</p>` : ""}
+          ${e.host ? `<p class="note-host">Hosted by ${escapeHtml(e.host)}</p>` : ""}
+          ${e.description ? `<p>${escapeHtml(e.description)}</p>` : ""}
+          ${links.length ? `<div class="card-links">${links.join("")}</div>` : ""}
+        </div>
+      </article>`;
+  }).join("");
+}
+
+renderBoard();
+
+// ---- Photo gallery ----
+
+const lightbox = {
+  dialog: document.getElementById("lightbox"),
+  img: document.getElementById("lightbox-img"),
+  caption: document.getElementById("lightbox-caption"),
+  index: 0,
+};
+
+function showPhoto(index) {
+  lightbox.index = (index + GALLERY.length) % GALLERY.length;
+  const photo = GALLERY[lightbox.index];
+  lightbox.img.src = photo.src;
+  lightbox.img.alt = photo.alt || "";
+  lightbox.caption.textContent = photo.caption || "";
+  lightbox.caption.hidden = !photo.caption;
+}
+
+function renderGallery() {
+  if (!GALLERY.length) return;
+  document.getElementById("photos").hidden = false;
+  document.querySelectorAll(".gallery-link").forEach((link) => { link.hidden = false; });
+  document.getElementById("gallery").innerHTML = GALLERY.map((photo, i) => `
+    <li>
+      <button type="button" class="gallery-item${photo.whole ? " gallery-item-whole" : ""}" data-index="${i}" aria-label="View larger: ${escapeHtml(photo.caption || photo.alt || `photo ${i + 1}`)}">
+        <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy">
+      </button>
+    </li>`).join("");
+  const multiple = GALLERY.length > 1;
+  document.getElementById("lightbox-prev").hidden = !multiple;
+  document.getElementById("lightbox-next").hidden = !multiple;
+}
+
+document.getElementById("gallery").addEventListener("click", (e) => {
+  const item = e.target.closest(".gallery-item");
+  if (!item) return;
+  showPhoto(Number(item.dataset.index));
+  lightbox.dialog.showModal();
+});
+document.getElementById("lightbox-close").addEventListener("click", () => lightbox.dialog.close());
+document.getElementById("lightbox-prev").addEventListener("click", () => showPhoto(lightbox.index - 1));
+document.getElementById("lightbox-next").addEventListener("click", () => showPhoto(lightbox.index + 1));
+lightbox.dialog.addEventListener("click", (e) => {
+  // Clicking the dark backdrop (outside the photo) closes the viewer.
+  if (e.target === lightbox.dialog) lightbox.dialog.close();
+});
+lightbox.dialog.addEventListener("keydown", (e) => {
+  if (GALLERY.length < 2) return;
+  if (e.key === "ArrowLeft") showPhoto(lightbox.index - 1);
+  if (e.key === "ArrowRight") showPhoto(lightbox.index + 1);
+});
+
+renderGallery();

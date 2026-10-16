@@ -35,9 +35,12 @@
       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <a href="#resources">Find help</a>
+        <a href="#food-calendar">Food days</a>
+        <a href="#events">Events</a>
         <a href="#campaigns">Campaigns</a>
         <a href="#about">About</a>
         <a href="#get-involved">Get involved</a>
+        <a href="#photos" class="gallery-link" hidden>Photos</a>
         <a class="btn btn-small" href="#donate">Donate</a>
       </nav>
     </div>
@@ -136,6 +139,51 @@
       </div>
     </section>
 
+    <section class="section section-alt" id="food-calendar" aria-labelledby="food-calendar-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="food-calendar-title">Food calendar</h2>
+          <p>Free meals and food pantries, day by day. Schedules change, so please call ahead before you go.</p>
+        </div>
+
+        <div class="cal">
+          <div class="cal-toolbar">
+            <h3 class="cal-title" id="cal-title" aria-live="polite"></h3>
+            <div class="cal-buttons">
+              <button type="button" class="cal-btn" id="cal-prev" aria-label="Previous month">‹</button>
+              <button type="button" class="cal-btn" id="cal-today">Today</button>
+              <button type="button" class="cal-btn" id="cal-next" aria-label="Next month">›</button>
+            </div>
+          </div>
+          <p class="cal-legend">
+            <span class="cal-key kind-meal">Hot meal</span>
+            <span class="cal-key kind-pantry">Food pantry</span>
+          </p>
+          <ol class="cal-weekdays" aria-hidden="true">
+            <li>Sun</li><li>Mon</li><li>Tue</li><li>Wed</li><li>Thu</li><li>Fri</li><li>Sat</li>
+          </ol>
+          <ol class="cal-grid" id="cal-grid"></ol>
+        </div>
+
+        <h3 class="cal-sites-title">Where and when</h3>
+        <div class="cards" id="cal-sites"></div>
+        <p class="fine-print">More food help, like senior meal delivery and The Caring Place, is in the <a href="#resources" data-jump="food">resource directory</a>. Want a pantry added to the calendar? <a href="mailto:info@ctncr.org?subject=Food%20calendar">Email us</a>.</p>
+      </div>
+    </section>
+
+    <section class="section" id="events" aria-labelledby="events-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="events-title">Community bulletin board</h2>
+          <p>Free things happening around Cleveland and Bradley County. Every event here is free to attend.</p>
+        </div>
+        <div class="board" id="board"></div>
+        <p class="board-cta">
+          <a class="btn btn-ghost" href="mailto:info@ctncr.org?subject=Free%20event%20for%20the%20bulletin%20board&amp;body=Event%20name%3A%0D%0ADate%20and%20time%3A%0D%0ALocation%3A%0D%0AWho%20is%20hosting%3A%0D%0ADescription%3A%0D%0ALink%20(if%20any)%3A%0D%0A">Post a free event</a>
+        </p>
+      </div>
+    </section>
+
     <section class="section section-alt" id="campaigns" aria-labelledby="campaigns-title">
       <div class="wrap">
         <div class="section-head">
@@ -213,6 +261,26 @@
       </div>
     </section>
 
+    <section class="section" id="photos" aria-labelledby="photos-title" hidden>
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="photos-title">Photos</h2>
+          <p>Neighbors showing up for each other.</p>
+        </div>
+        <ul class="gallery" id="gallery"></ul>
+      </div>
+    </section>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+      <figure>
+        <img id="lightbox-img" src="" alt="">
+        <figcaption id="lightbox-caption"></figcaption>
+      </figure>
+      <button type="button" class="lightbox-btn lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+      <button type="button" class="lightbox-btn lightbox-prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
+      <button type="button" class="lightbox-btn lightbox-next" id="lightbox-next" aria-label="Next photo">›</button>
+    </dialog>
+
     <section class="section donate" id="donate" aria-labelledby="donate-title">
       <div class="wrap donate-inner">
         <h2 id="donate-title">Support CTNCR</h2>
@@ -242,6 +310,9 @@
   </footer>
 
   <script src="resources.js"></script>
+  <script src="food-schedule.js"></script>
+  <script src="events.js"></script>
+  <script src="gallery.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
