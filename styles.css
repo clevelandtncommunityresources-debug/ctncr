@@ -254,6 +254,8 @@ a { color: var(--brand); }
 .gallery-item { display: block; width: 100%; padding: 0; border: 0; border-radius: 12px; overflow: hidden; cursor: zoom-in; background: var(--bg-alt); }
 .gallery-item img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.25s ease; }
 .gallery-item:hover img { transform: scale(1.04); }
+.gallery-item-whole { background: #111; }
+.gallery-item-whole img { object-fit: contain; padding: 8px; }
 .lightbox { max-width: min(1100px, 94vw); max-height: 94vh; padding: 0; border: 0; border-radius: 12px; background: #000; color: #fff; overflow: visible; }
 .lightbox::backdrop { background: rgba(10, 10, 20, 0.85); }
 .lightbox figure { margin: 0; }

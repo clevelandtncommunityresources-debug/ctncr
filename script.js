@@ -314,7 +314,7 @@ function renderGallery() {
   document.querySelectorAll(".gallery-link").forEach((link) => { link.hidden = false; });
   document.getElementById("gallery").innerHTML = GALLERY.map((photo, i) => `
     <li>
-      <button type="button" class="gallery-item" data-index="${i}" aria-label="View larger: ${escapeHtml(photo.alt || photo.caption || `photo ${i + 1}`)}">
+      <button type="button" class="gallery-item${photo.whole ? " gallery-item-whole" : ""}" data-index="${i}" aria-label="View larger: ${escapeHtml(photo.caption || photo.alt || `photo ${i + 1}`)}">
         <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy">
       </button>
     </li>`).join("");
