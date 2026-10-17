@@ -14,6 +14,8 @@
   --meal-soft: #fdf0d8;
   --pantry: #1f6a4a;
   --pantry-soft: #dff2e8;
+  --mobile: #2d4f9e;
+  --mobile-soft: #e3eafb;
   --shadow: 0 1px 2px rgba(29, 42, 38, 0.06), 0 4px 16px rgba(29, 42, 38, 0.06);
   --radius: 14px;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -36,6 +38,8 @@
     --meal-soft: #3a2a12;
     --pantry: #8fdcb5;
     --pantry-soft: #163327;
+    --mobile: #a9c1ff;
+    --mobile-soft: #1b2747;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
   }
 }
@@ -209,6 +213,10 @@ a { color: var(--brand); }
 .cal-key { font-size: 0.8rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; }
 .kind-meal { --kind: var(--meal); --kind-soft: var(--meal-soft); }
 .kind-pantry { --kind: var(--pantry); --kind-soft: var(--pantry-soft); }
+.kind-mobile { --kind: var(--mobile); --kind-soft: var(--mobile-soft); }
+.cal-hint { margin: 0 0 6px; font-size: 0.85rem; color: var(--muted); }
+button.cal-key { font-family: inherit; min-height: 32px; padding: 4px 12px; cursor: pointer; border: 1px solid var(--kind); }
+button.cal-key[aria-pressed="false"] { background: transparent; color: var(--muted); border-color: var(--border); text-decoration: line-through; }
 .cal-key, .tag.cal-key { background: var(--kind-soft); color: var(--kind); }
 
 .cal-weekdays, .cal-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }

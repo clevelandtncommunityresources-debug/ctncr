@@ -21,7 +21,7 @@ Settings → Pages → Source: "Deploy from a branch" → pick the branch and `/
 
 ## Keeping listings accurate
 
-Listings were compiled from public directories (UTC MobileMOC Bradley County guide, Feeding America) in October 2026. Call each one to confirm hours and services before relying on it.
+Listings were compiled from public directories (UTC MobileMOC Bradley County guide, Feeding America, and the CBFP.news food pantry, free meal and mobile pantry listings) in October 2026. Call each one to confirm hours and services before relying on it.
 
 ## Adding events, food days and photos
 
