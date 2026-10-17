@@ -162,9 +162,7 @@ function shortDate(date) {
 
 // ---- Food calendar ----
 
-function servesOn(site, date) {
-  const rule = site.repeat;
-  if (!rule) return false;
+function ruleMatches(rule, date) {
   if (rule.weekly) return rule.weekly.includes(date.getDay());
   if (rule.dates) return rule.dates.includes(dateKey(date));
   if (rule.monthly) {
@@ -176,10 +174,21 @@ function servesOn(site, date) {
   return false;
 }
 
+// The hours a site is open on a date, or null if it isn't open. `repeat` can be
+// one rule or a list of rules, each with an optional time of its own.
+function hoursOn(site, date) {
+  if (!site.repeat) return null;
+  const rules = Array.isArray(site.repeat) ? site.repeat : [site.repeat];
+  const rule = rules.find((r) => ruleMatches(r, date));
+  return rule ? rule.time || site.time || "" : null;
+}
+
 const cal = {
   grid: document.getElementById("cal-grid"),
   title: document.getElementById("cal-title"),
   sites: document.getElementById("cal-sites"),
+  legend: document.getElementById("cal-legend"),
+  hidden: new Set(), // kinds switched off in the legend
   month: new Date(startOfToday().getFullYear(), startOfToday().getMonth(), 1),
 };
 
@@ -194,14 +203,17 @@ function renderCalendar() {
   for (let i = 0; i < cal.month.getDay(); i++) cells.push(`<li class="cal-blank" aria-hidden="true"></li>`);
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    const open = FOOD_SCHEDULE.filter((site) => servesOn(site, date));
+    const open = FOOD_SCHEDULE
+      .filter((site) => !cal.hidden.has(site.kind))
+      .map((site) => ({ site, time: hoursOn(site, date) }))
+      .filter((o) => o.time !== null);
     const classes = ["cal-day"];
     if (date.getTime() === today.getTime()) classes.push("is-today");
     if (date < today) classes.push("is-past");
     if (!open.length) classes.push("is-empty");
-    const items = open.map((site) => `
+    const items = open.map(({ site, time }) => `
       <li class="cal-item kind-${site.kind}">
-        <a href="#site-${site.id}"><span class="cal-time">${escapeHtml(site.time)}</span> ${escapeHtml(site.short)}</a>
+        <a href="#site-${site.id}"><span class="cal-time">${escapeHtml(time)}</span> ${escapeHtml(site.short)}</a>
       </li>`).join("");
     cells.push(`
       <li class="${classes.join(" ")}">
@@ -218,11 +230,13 @@ function renderFoodSites() {
     const links = [];
     if (site.phone) links.push(`<a href="${telHref(site.phone)}">Call ${escapeHtml(site.phone)}</a>`);
     if (site.address) links.push(`<a href="${mapHref(site.address)}" target="_blank" rel="noopener">Directions</a>`);
+    if (site.url) links.push(`<a href="${escapeHtml(site.url)}" target="_blank" rel="noopener">Website</a>`);
     return `
       <article class="card" id="site-${site.id}">
         <span class="tag cal-key kind-${site.kind}">${escapeHtml(FOOD_KINDS[site.kind])}</span>
         <h3>${escapeHtml(site.name)}</h3>
         <p>${site.repeat ? "" : "<strong>Call for dates:</strong> "}${escapeHtml(site.when)}</p>
+        ${site.notes ? `<p>${escapeHtml(site.notes)}</p>` : ""}
         ${site.address ? `<p class="address">${escapeHtml(site.address)}</p>` : ""}
         <div class="card-links">${links.join("")}</div>
       </article>`;
@@ -231,6 +245,24 @@ function renderFoodSites() {
   const sorted = [...FOOD_SCHEDULE.filter((s) => s.repeat), ...FOOD_SCHEDULE.filter((s) => !s.repeat)];
   cal.sites.innerHTML = sorted.map(card).join("");
 }
+
+function renderLegend() {
+  cal.legend.innerHTML = Object.entries(FOOD_KINDS)
+    .map(([kind, label]) =>
+      `<button type="button" class="cal-key kind-${kind}" data-kind="${kind}" aria-pressed="${!cal.hidden.has(kind)}">${escapeHtml(label)}</button>`)
+    .join("");
+}
+
+// Tapping a legend key shows or hides that kind on the calendar.
+cal.legend.addEventListener("click", (e) => {
+  const key = e.target.closest("[data-kind]");
+  if (!key) return;
+  const kind = key.dataset.kind;
+  if (cal.hidden.has(kind)) cal.hidden.delete(kind);
+  else cal.hidden.add(kind);
+  renderLegend();
+  renderCalendar();
+});
 
 function shiftMonth(delta) {
   cal.month = new Date(cal.month.getFullYear(), cal.month.getMonth() + delta, 1);
@@ -244,6 +276,7 @@ document.getElementById("cal-today").addEventListener("click", () => {
   renderCalendar();
 });
 
+renderLegend();
 renderCalendar();
 renderFoodSites();
 
