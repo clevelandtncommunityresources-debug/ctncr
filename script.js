@@ -552,3 +552,95 @@ lightbox.dialog.addEventListener("keydown", (e) => {
 });
 
 renderGallery();
+
+// ---- Neighbors' stories ----
+
+// Each story shows beside a photo; it moves on by itself after this many seconds.
+const STORY_SECONDS = 10;
+
+const stories = {
+  root: document.getElementById("stories"),
+  slides: [],
+  count: document.getElementById("story-count"),
+  pauseBtn: document.getElementById("story-pause"),
+  index: 0,
+  timer: null,
+  paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  held: false,
+};
+
+function renderStories() {
+  if (typeof STORIES === "undefined" || !STORIES.length) return;
+  // Only photos without recognizable people, so no one looks like the speaker.
+  const photos = GALLERY.filter((photo) => !photo.whole && !photo.people);
+  stories.root.hidden = false;
+  const slidesEl = document.getElementById("story-slides");
+  slidesEl.innerHTML = STORIES.map((story, i) => {
+    const photo = photos.length ? photos[i % photos.length] : null;
+    return `
+      <figure class="story" aria-roledescription="slide" aria-label="${i + 1} of ${STORIES.length}">
+        ${photo ? `<div class="story-photo"><img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy"></div>` : ""}
+        <div class="story-text">
+          <blockquote><p>${escapeHtml(story.quote)}</p></blockquote>
+          <figcaption>${escapeHtml(story.name)}</figcaption>
+        </div>
+      </figure>`;
+  }).join("");
+  stories.slides = [...slidesEl.children];
+  showStory(0);
+  setStoriesPaused(stories.paused);
+}
+
+function showStory(index) {
+  stories.index = (index + STORIES.length) % STORIES.length;
+  stories.slides.forEach((slide, i) => {
+    const active = i === stories.index;
+    slide.classList.toggle("is-active", active);
+    slide.inert = !active;
+    slide.setAttribute("aria-hidden", String(!active));
+  });
+  stories.count.textContent = `${stories.index + 1} of ${STORIES.length}`;
+}
+
+function scheduleStory() {
+  clearTimeout(stories.timer);
+  if (stories.paused || stories.held || STORIES.length < 2) return;
+  stories.timer = setTimeout(() => {
+    showStory(stories.index + 1);
+    scheduleStory();
+  }, STORY_SECONDS * 1000);
+}
+
+function setStoriesPaused(paused) {
+  stories.paused = paused;
+  stories.pauseBtn.textContent = paused ? "▶" : "❚❚";
+  stories.pauseBtn.setAttribute("aria-label", paused ? "Play stories" : "Pause stories");
+  scheduleStory();
+}
+
+function holdStories(held) {
+  stories.held = held;
+  scheduleStory();
+}
+
+document.getElementById("story-prev").addEventListener("click", () => { showStory(stories.index - 1); scheduleStory(); });
+document.getElementById("story-next").addEventListener("click", () => { showStory(stories.index + 1); scheduleStory(); });
+stories.pauseBtn.addEventListener("click", () => setStoriesPaused(!stories.paused));
+const storyShow = document.querySelector(".story-show");
+storyShow.addEventListener("mouseenter", () => holdStories(true));
+storyShow.addEventListener("mouseleave", () => holdStories(false));
+storyShow.addEventListener("focusin", () => holdStories(true));
+storyShow.addEventListener("focusout", (e) => { if (!storyShow.contains(e.relatedTarget)) holdStories(false); });
+
+let storyTouchX = null;
+storyShow.addEventListener("touchstart", (e) => { storyTouchX = e.touches[0].clientX; }, { passive: true });
+storyShow.addEventListener("touchend", (e) => {
+  if (storyTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - storyTouchX;
+  storyTouchX = null;
+  if (Math.abs(dx) < 40) return;
+  showStory(stories.index + (dx < 0 ? 1 : -1));
+  scheduleStory();
+}, { passive: true });
+
+renderStories();
