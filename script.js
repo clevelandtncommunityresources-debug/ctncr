@@ -378,15 +378,27 @@ function renderBoard() {
     board.el.innerHTML = `<div class="empty"><p><strong>Nothing posted for this week yet.</strong></p><p>Know about something free? Send it our way and we'll pin it here.</p></div>`;
     return;
   }
-  board.el.innerHTML = days.map(({ day, events }) => `
-    <section class="agenda-day${day.getTime() === today.getTime() ? " is-today" : ""}" aria-label="${WEEKDAYS[day.getDay()]}, ${MONTHS[day.getMonth()]} ${day.getDate()}">
-      <h3 class="agenda-date" aria-hidden="true">
-        <span class="agenda-dow">${day.getTime() === today.getTime() ? "Today" : WEEKDAYS[day.getDay()].slice(0, 3)}</span>
-        <span class="agenda-num">${day.getDate()}</span>
-        <span class="agenda-month">${MONTHS[day.getMonth()].slice(0, 3)}</span>
-      </h3>
+  // Each day is a dropdown; only the first one (today, if anything is on) starts open.
+  board.el.innerHTML = days.map(({ day, events }, i) => {
+    const isToday = day.getTime() === today.getTime();
+    const preview = events.slice(0, 3).map((e) => e.title).join(" · ") + (events.length > 3 ? " …" : "");
+    return `
+    <details class="agenda-day${isToday ? " is-today" : ""}"${i === 0 ? " open" : ""}>
+      <summary class="agenda-day-head">
+        <span class="agenda-date" aria-hidden="true">
+          <span class="agenda-dow">${isToday ? "Today" : WEEKDAYS[day.getDay()].slice(0, 3)}</span>
+          <span class="agenda-num">${day.getDate()}</span>
+          <span class="agenda-month">${MONTHS[day.getMonth()].slice(0, 3)}</span>
+        </span>
+        <span class="agenda-day-info">
+          <span class="agenda-day-name"><span class="visually-hidden">${WEEKDAYS[day.getDay()]}, ${MONTHS[day.getMonth()]} ${day.getDate()}: </span>${eventLabel(events.length)}</span>
+          <span class="agenda-preview">${escapeHtml(preview)}</span>
+        </span>
+        <span class="agenda-chevron" aria-hidden="true"></span>
+      </summary>
       <ul class="agenda-items">${events.map(agendaItem).join("")}</ul>
-    </section>`).join("");
+    </details>`;
+  }).join("");
 }
 
 board.select.addEventListener("change", () => {
