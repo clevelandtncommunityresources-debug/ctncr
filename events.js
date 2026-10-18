@@ -14,8 +14,20 @@
 //   host         (optional) Who is putting it on
 //   description  (optional) A sentence or two
 //   url          (optional) Link for more info or sign-up
+//
+// Library programs are pulled in automatically (see library-events.js), so
+// they don't need to be added here.
 
 const EVENTS = [
+  {
+    title: "Fall Festival 2026",
+    date: "2026-10-18",
+    location: "New Friendship Baptist Church",
+    address: "New Friendship Baptist Church, Charleston, TN",
+    host: "New Friendship Baptist Church",
+    description: "A fall festival in Charleston. See the Facebook event for times and details.",
+    url: "https://www.facebook.com/events/28138818329154520/",
+  },
   // {
   //   title: "Community Potluck",
   //   date: "2026-11-07",

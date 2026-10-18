@@ -10,6 +10,7 @@ A static site with no build step and no dependencies: open `index.html` in a bro
 - `resources.js` — **the resource directory data**; edit this to add, change or remove listings
 - `food-schedule.js` — **food calendar data**: which days and times each pantry or meal is open. The calendar shows today's food and a dropdown to pick another day
 - `events.js` — **bulletin board events**; past events drop off the board automatically
+- `library-events.js` — Cleveland Bradley County Public Library programs for the bulletin board. Rewritten every morning by `.github/workflows/library-events.yml` (which runs `scripts/update_library_events.py`), so don't edit it by hand. To refresh it right away: Actions tab → "Update library events" → Run workflow
 - `gallery.js` — **photo slideshow list**, shown at the top of the page in the order listed; photos go in `assets/gallery/`. The slideshow stays hidden until the list has at least one photo
 - `script.js` — search/filter logic, food calendar, bulletin board, photo slideshow and mobile menu
 - `styles.css` — styles (includes dark mode)

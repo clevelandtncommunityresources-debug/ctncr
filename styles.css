@@ -258,6 +258,12 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
 .note-when { font-weight: 600; color: var(--brand); }
 .note-where, .note-host { color: var(--muted); }
 .board-cta { margin: 20px 0 0; }
+.board-toolbar { margin-bottom: 12px; }
+.board-day { font-family: var(--font-body); font-weight: 600; font-size: 1.1rem; margin: 26px 0 12px; }
+.board-day:first-child { margin-top: 0; }
+.note-tag { margin-bottom: 6px; }
+.note-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.note .card-links { margin-top: auto; }
 
 /* Photo slideshow */
 .slideshow { position: relative; }
@@ -395,7 +401,13 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
   }
   .day-list:not(.is-single) > li { scroll-snap-align: start; }
   .day-list:not(.is-single) + .day-swipe-hint { display: block; margin-top: 8px; }
-  .board { grid-template-columns: 1fr; }
+  .board {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin: 0 -16px; padding: 0 16px 6px; scroll-padding: 0 16px;
+  }
+  .board > .note { scroll-snap-align: start; }
+  .board:has(> .note:only-child) { grid-auto-columns: 100%; }
 }
 
 @media (max-width: 480px) {
