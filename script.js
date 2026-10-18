@@ -294,45 +294,127 @@ renderDay();
 
 // ---- Community bulletin board ----
 
-function renderBoard() {
-  const board = document.getElementById("board");
-  const today = startOfToday();
-  const upcoming = EVENTS
-    .filter((e) => parseDate(e.endDate || e.date) >= today)
-    .sort((a, b) => parseDate(a.date) - parseDate(b.date));
+// How far ahead the event picker reaches, by day and by week.
+const BOARD_DAYS = 14;
+const BOARD_WEEKS = 6;
 
-  if (!upcoming.length) {
-    board.innerHTML = `<div class="empty"><p><strong>No events posted right now.</strong></p><p>Know about something free coming up? Send it our way and we'll pin it here.</p></div>`;
-    return;
-  }
+const board = {
+  el: document.getElementById("board"),
+  select: document.getElementById("board-select"),
+  count: document.getElementById("board-count"),
+  choice: "day:0", // "day:N" = N days from today, "week:N" = N weeks from this one
+};
 
-  board.innerHTML = upcoming.map((e) => {
-    const start = parseDate(e.date);
-    let when = shortDate(start);
-    if (e.endDate && e.endDate !== e.date) when += ` – ${shortDate(parseDate(e.endDate))}`;
-    if (e.time) when += ` · ${e.time}`;
-    const where = [e.location, e.address].filter(Boolean).join(", ");
-    const links = [];
-    if (e.address) links.push(`<a href="${mapHref(e.address)}" target="_blank" rel="noopener">Directions</a>`);
-    if (e.url) links.push(`<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener">More info</a>`);
-    return `
-      <article class="note">
-        <div class="note-date" aria-hidden="true">
-          <span class="note-month">${MONTHS[start.getMonth()].slice(0, 3)}</span>
-          <span class="note-day">${start.getDate()}</span>
-        </div>
-        <div class="note-body">
-          <h3>${escapeHtml(e.title)}</h3>
-          <p class="note-when">${escapeHtml(when)}</p>
-          ${where ? `<p class="note-where">${escapeHtml(where)}</p>` : ""}
-          ${e.host ? `<p class="note-host">Hosted by ${escapeHtml(e.host)}</p>` : ""}
-          ${e.description ? `<p>${escapeHtml(e.description)}</p>` : ""}
-          ${links.length ? `<div class="card-links">${links.join("")}</div>` : ""}
-        </div>
-      </article>`;
-  }).join("");
+// CTNCR's own events plus the library's, which come from library-events.js.
+const ALL_EVENTS = [
+  ...EVENTS,
+  ...(typeof LIBRARY_EVENTS === "undefined" ? [] : LIBRARY_EVENTS.map((e) => ({ ...e, library: true, url: e.url || LIBRARY_CALENDAR_URL }))),
+];
+
+function eventsBetween(first, last) {
+  return ALL_EVENTS
+    .filter((e) => parseDate(e.date) <= last && parseDate(e.endDate || e.date) >= first)
+    .sort((a, b) => parseDate(a.date) - parseDate(b.date) || (a.start || "").localeCompare(b.start || ""));
 }
 
+// The first and last day a picker choice covers. Weeks run Sunday to Saturday.
+function boardRange(choice) {
+  const [kind, n] = choice.split(":");
+  if (kind === "day") {
+    const day = calDate(Number(n));
+    return [day, day];
+  }
+  const today = startOfToday();
+  const sunday = calDate(Number(n) * 7 - today.getDay());
+  const first = Number(n) === 0 ? today : sunday;
+  return [first, new Date(sunday.getFullYear(), sunday.getMonth(), sunday.getDate() + 6)];
+}
+
+function eventLabel(n) {
+  return `${n} ${n === 1 ? "event" : "events"}`;
+}
+
+function renderBoardOptions() {
+  const option = (value, name) =>
+    `<option value="${value}">${name} (${eventLabel(eventsBetween(...boardRange(value)).length)})</option>`;
+  const days = [];
+  for (let i = 0; i < BOARD_DAYS; i++) {
+    const date = calDate(i);
+    days.push(option(`day:${i}`, i === 0 ? `Today, ${shortDate(date)}` : i === 1 ? `Tomorrow, ${shortDate(date)}` : shortDate(date)));
+  }
+  const weeks = [];
+  for (let i = 0; i < BOARD_WEEKS; i++) {
+    const [first, last] = boardRange(`week:${i}`);
+    const span = `${MONTHS[first.getMonth()].slice(0, 3)} ${first.getDate()}–${last.getMonth() === first.getMonth() ? "" : MONTHS[last.getMonth()].slice(0, 3) + " "}${last.getDate()}`;
+    weeks.push(option(`week:${i}`, i === 0 ? `Rest of this week, ${span}` : i === 1 ? `Next week, ${span}` : `Week of ${span}`));
+  }
+  board.select.innerHTML = `<optgroup label="One day">${days.join("")}</optgroup><optgroup label="A whole week">${weeks.join("")}</optgroup>`;
+  board.select.value = board.choice;
+}
+
+function noteHtml(e) {
+  const start = parseDate(e.date);
+  let when = shortDate(start);
+  if (e.endDate && e.endDate !== e.date) when += ` – ${shortDate(parseDate(e.endDate))}`;
+  if (e.time) when += ` · ${e.time}`;
+  // Library events name the branch and room; the address is behind Directions.
+  const where = e.library ? e.location || e.address : [e.location, e.address].filter(Boolean).join(", ");
+  const tag = [e.library && "Library", e.audience].filter(Boolean).join(" · ");
+  const links = [];
+  if (e.address) links.push(`<a href="${mapHref(e.address)}" target="_blank" rel="noopener">Directions</a>`);
+  if (e.url) links.push(`<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener">More info</a>`);
+  return `
+    <article class="note">
+      <div class="note-date" aria-hidden="true">
+        <span class="note-month">${MONTHS[start.getMonth()].slice(0, 3)}</span>
+        <span class="note-day">${start.getDate()}</span>
+      </div>
+      <div class="note-body">
+        ${tag ? `<span class="tag note-tag">${escapeHtml(tag)}</span>` : ""}
+        <h3>${escapeHtml(e.title)}</h3>
+        <p class="note-when">${escapeHtml(when)}</p>
+        ${where ? `<p class="note-where">${escapeHtml(where)}</p>` : ""}
+        ${e.host ? `<p class="note-host">Hosted by ${escapeHtml(e.host)}</p>` : ""}
+        ${e.description ? `<p class="note-desc">${escapeHtml(e.description)}</p>` : ""}
+        ${links.length ? `<div class="card-links">${links.join("")}</div>` : ""}
+      </div>
+    </article>`;
+}
+
+function renderBoard() {
+  const [first, last] = boardRange(board.choice);
+  const events = eventsBetween(first, last);
+  const isDay = board.choice.startsWith("day:");
+  const today = startOfToday();
+  const dayName = (d) => d.getTime() === today.getTime() ? "today" : `on ${WEEKDAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  board.count.textContent = !events.length ? ""
+    : isDay ? `${eventLabel(events.length)} ${dayName(first)}.`
+    : `${eventLabel(events.length)} from ${shortDate(first)} to ${shortDate(last)}.`;
+
+  if (!events.length) {
+    board.el.innerHTML = `<div class="empty"><p><strong>Nothing posted for ${isDay ? "this day" : "this week"}.</strong></p><p>Try another day in the list, or pick a whole week. Know about something free? Send it our way and we'll pin it here.</p></div>`;
+    return;
+  }
+  if (isDay) {
+    board.el.innerHTML = `<div class="board">${events.map(noteHtml).join("")}</div>`;
+    return;
+  }
+  // A week is grouped under a heading for each day.
+  const groups = [];
+  for (let d = new Date(first); d <= last; d.setDate(d.getDate() + 1)) {
+    const day = new Date(d);
+    const todays = events.filter((e) => parseDate(e.date) <= day && parseDate(e.endDate || e.date) >= day);
+    if (todays.length) groups.push(`<h3 class="board-day">${WEEKDAYS[day.getDay()]}, ${MONTHS[day.getMonth()]} ${day.getDate()}</h3><div class="board">${todays.map(noteHtml).join("")}</div>`);
+  }
+  board.el.innerHTML = groups.join("");
+}
+
+board.select.addEventListener("change", () => {
+  board.choice = board.select.value;
+  renderBoard();
+});
+
+renderBoardOptions();
 renderBoard();
 
 // ---- Photo gallery ----

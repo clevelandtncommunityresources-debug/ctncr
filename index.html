@@ -173,9 +173,16 @@
       <div class="wrap">
         <div class="section-head">
           <h2 id="events-title">Community bulletin board</h2>
-          <p>Free things happening around Cleveland and Bradley County. Every event here is free to attend.</p>
+          <p>Free things happening around Cleveland and Bradley County, including programs at the <a href="https://clevelandlibrary.org/">Cleveland Bradley County Public Library</a>. Every event here is free to attend.</p>
         </div>
-        <div class="board" id="board"></div>
+        <div class="board-toolbar">
+          <label class="day-picker">
+            <span class="day-picker-label">Show events for</span>
+            <select id="board-select"></select>
+          </label>
+        </div>
+        <p class="day-count" id="board-count" aria-live="polite"></p>
+        <div id="board"></div>
         <p class="board-cta">
           <a class="btn btn-ghost" href="mailto:info@ctncr.org?subject=Free%20event%20for%20the%20bulletin%20board&amp;body=Event%20name%3A%0D%0ADate%20and%20time%3A%0D%0ALocation%3A%0D%0AWho%20is%20hosting%3A%0D%0ADescription%3A%0D%0ALink%20(if%20any)%3A%0D%0A">Post a free event</a>
         </p>
@@ -300,6 +307,7 @@
   <script src="resources.js"></script>
   <script src="food-schedule.js"></script>
   <script src="events.js"></script>
+  <script src="library-events.js"></script>
   <script src="gallery.js"></script>
   <script src="script.js"></script>
 </body>
