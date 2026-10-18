@@ -6,7 +6,9 @@
 //      Photos around 1200–1600 pixels wide look sharp and load quickly.
 //   2. Add an entry below with the file name, a short description for people
 //      using screen readers (alt), and an optional caption.
-//   3. For screenshots of messages, add  whole: true  and copy the words of the
+//   3. If people can be recognized in the photo, add  people: true  so it isn't
+//      paired with a neighbor's story (that could look like they said it).
+//   4. For screenshots of messages, add  whole: true  and copy the words of the
 //      message into  quote: "..."  so the slideshow can show them large and
 //      easy to read. The screenshot still opens when someone taps the slide.
 //
@@ -17,6 +19,7 @@
 const GALLERY = [
   {
     src: "assets/gallery/holiday-treats.jpg",
+    people: true,
     alt: "A smiling volunteer behind a table of free snacks, cookies and candy with a yellow sign reading Holiday Treats: snacks, cookies, cocoa. Help yourself!",
     caption: "Holiday treats: help yourself!",
   },
@@ -29,6 +32,7 @@ const GALLERY = [
   },
   {
     src: "assets/gallery/food-drive-boxes.jpg",
+    people: true,
     alt: "Two excited kids giving thumbs up behind five hand-decorated cardboard food drive boxes",
     caption: "Our food drive hype crew, November 2025",
   },

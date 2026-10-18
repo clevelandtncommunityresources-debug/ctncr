@@ -35,13 +35,13 @@
       </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#stories">Stories</a>
         <a href="#resources">Find help</a>
         <a href="#food-calendar">Food days</a>
         <a href="#events">Events</a>
         <a href="#campaigns">Campaigns</a>
-        <a href="#about">About</a>
         <a href="#get-involved">Get involved</a>
-        <a href="#photos" class="gallery-link" hidden>Photos</a>
         <a class="btn btn-small" href="#donate">Donate</a>
       </nav>
     </div>
@@ -51,7 +51,7 @@
     <section class="hero" id="top">
       <div class="wrap hero-inner">
         <div>
-          <p class="eyebrow">Cleveland &amp; Bradley County, Tennessee</p>
+          <p class="eyebrow">Solidarity, not charity · Cleveland &amp; Bradley County, TN</p>
           <h1>Neighbors meeting needs.</h1>
           <p class="lede">Just a bunch of your neighbors coming together to meet needs and fight systems that fail us.</p>
           <div class="hero-actions">
@@ -78,6 +78,85 @@
           <li><a href="#resources" data-jump="safety"><span aria-hidden="true">🛡️</span>Safety</a></li>
           <li><a href="#resources" data-jump="lgbtq"><span aria-hidden="true">🏳️‍🌈</span>LGBTQ+</a></li>
         </ul>
+      </div>
+    </section>
+
+    <section class="section who" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="who-intro">
+          <div>
+            <p class="eyebrow">Who we are</p>
+            <h2 id="about-title">Solidarity, not charity.</h2>
+          </div>
+          <div class="who-text">
+            <p>Cleveland TN Community Resources is a 501(c)(3) nonprofit serving Bradley County, Tennessee. We are entirely volunteer-run with no paid staff and minimal internal operating costs, since our administrative work is done digitally. Contributed funds go directly into programming and community support.</p>
+            <p>CTNCR operates under a steward-based leadership model with ten operational seats covering finance, operations, communications, partnerships, volunteer coordination, and program leads. This distributes decision-making and builds organizational resilience that does not depend on any one person.</p>
+          </div>
+        </div>
+
+        <h3 class="who-subhead">Our programs</h3>
+        <div class="program-grid">
+          <article class="program">
+            <span class="program-icon" aria-hidden="true">🧊</span>
+            <h4>Community Fridge and Food Pantry</h4>
+            <p>Continuously stocked free food access with no application, income verification, or documentation requirement. Removing barriers means we reach neighbors who fall outside eligibility windows for other assistance.</p>
+          </article>
+          <article class="program">
+            <span class="program-icon" aria-hidden="true">💸</span>
+            <h4>Emergency Microgrant Fund</h4>
+            <p>Direct financial assistance for rent, utilities, transportation, and medical costs. Low-barrier and fast-moving, filling the gap between crisis and slower institutional aid.</p>
+          </article>
+          <article class="program">
+            <span class="program-icon" aria-hidden="true">⚖️</span>
+            <h4>Immigration Rights and Justice</h4>
+            <p>Know your rights education, rapid response protocols, and direct support services for immigrant residents of Bradley County.</p>
+          </article>
+          <article class="program">
+            <span class="program-icon" aria-hidden="true">🎨</span>
+            <h4>Community Programming</h4>
+            <p>Regular free gatherings including weekly arts and crafts nights with childcare support, designed to build the social connection that makes material support sustainable.</p>
+          </article>
+        </div>
+
+        <div class="approach">
+          <div>
+            <h3>Our approach</h3>
+            <p>We work from a mutual aid framework. Support flows horizontally between neighbors rather than downward from institution to recipient. Practically, this means no gatekeeping, no means testing, and no distinction between who gives and who receives. Many of the people we serve also volunteer with us.</p>
+            <p>This model reaches households that traditional service delivery misses, and it produces engagement rather than dependency.</p>
+          </div>
+          <div>
+            <h3>Capacity and governance</h3>
+            <p>Volunteer-run with a formal steward structure and defined role accountability. Financial oversight sits with a designated Treasurer seat. We track distribution volume, program reach, and community impact through regular community surveys.</p>
+            <p class="who-contact"><strong>Alicia Conboy, Executive Director</strong><br><a href="mailto:info@ctncr.org">info@ctncr.org</a> · <a href="tel:4237904724">423-790-4724</a></p>
+          </div>
+        </div>
+
+        <details class="further-reading">
+          <summary>Further reading on mutual aid</summary>
+          <ul>
+            <li><a href="https://www.academia.edu/120401953/Let_this_radicalize_you"><cite>Let This Radicalize You: Organizing and the Revolution of Reciprocal Care</cite></a> by Mariame Kaba and Kelly Hayes</li>
+            <li><a href="https://share.google/mllw7Ak4A6tqDtRcj"><cite>Let This Radicalize You: A Workbook</cite></a></li>
+            <li><a href="https://theanarchistlibrary.org/library/dean-spade-mutual-aid"><cite>Mutual Aid: Building Solidarity During This Crisis (and the Next)</cite></a> by Dean Spade</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <section class="section stories" id="stories" aria-labelledby="stories-title" hidden>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Impact</p>
+          <h2 id="stories-title">In our neighbors’ words</h2>
+        </div>
+        <div class="story-show" role="region" aria-roledescription="carousel" aria-label="Neighbors' stories">
+          <div class="story-slides" id="story-slides"></div>
+          <div class="story-controls">
+            <button type="button" class="slideshow-btn" id="story-prev" aria-label="Previous story">‹</button>
+            <span class="story-count" id="story-count" aria-live="polite"></span>
+            <button type="button" class="slideshow-btn" id="story-pause" aria-label="Pause stories">❚❚</button>
+            <button type="button" class="slideshow-btn" id="story-next" aria-label="Next story">›</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -219,24 +298,6 @@
       </div>
     </section>
 
-    <section class="section" id="about" aria-labelledby="about-title">
-      <div class="wrap two-col">
-        <div>
-          <h2 id="about-title">About CTNCR</h2>
-          <p>Cleveland, TN Community Resources is just a bunch of your neighbors coming together to meet needs and fight systems that fail us.</p>
-          <p>We believe in mutual aid: people taking care of each other directly, with dignity and without strings attached. We share resources, raise money for neighbors and for the projects our community needs, and work to change the systems that leave people behind.</p>
-        </div>
-        <div class="further-reading">
-          <h3>Further reading</h3>
-          <ul>
-            <li><a href="https://www.academia.edu/120401953/Let_this_radicalize_you"><cite>Let This Radicalize You: Organizing and the Revolution of Reciprocal Care</cite></a> by Mariame Kaba and Kelly Hayes</li>
-            <li><a href="https://share.google/mllw7Ak4A6tqDtRcj"><cite>Let This Radicalize You: A Workbook</cite></a></li>
-            <li><a href="https://theanarchistlibrary.org/library/dean-spade-mutual-aid"><cite>Mutual Aid: Building Solidarity During This Crisis (and the Next)</cite></a> by Dean Spade</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <section class="section section-alt" id="get-involved" aria-labelledby="involved-title">
       <div class="wrap">
         <div class="section-head">
@@ -280,7 +341,13 @@
     <section class="section donate" id="donate" aria-labelledby="donate-title">
       <div class="wrap donate-inner">
         <h2 id="donate-title">Support CTNCR</h2>
-        <p>Your gift goes straight to meeting needs in Cleveland and Bradley County.</p>
+        <p>Your gift goes straight to meeting needs in Cleveland and Bradley County. Because we carry no facility costs and run administration digitally, funding translates directly into services delivered.</p>
+        <ol class="priorities">
+          <li><strong>Program expansion.</strong> Growing reach and adding capacity to existing programs.</li>
+          <li><strong>Fridge and pantry stocking.</strong> Consistent, reliable food supply.</li>
+          <li><strong>Microgrant fund.</strong> More cash available for neighbors in crisis.</li>
+          <li><strong>General operating.</strong> Including a long-term goal of weekly stipends for our stewards, who carry substantial ongoing responsibility without compensation.</li>
+        </ol>
         <div class="donate-actions">
           <a class="btn btn-light" href="https://givebutter.com/fill-the-fridge-hvkico">Givebutter</a>
           <a class="btn btn-light" href="https://paypal.com/us/fundraiser/charity/5715805">PayPal Giving Fund</a>
@@ -293,7 +360,7 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p><strong>Cleveland, TN Community Resources</strong><br>Serving Cleveland &amp; Bradley County, Tennessee<br><a href="mailto:info@ctncr.org">info@ctncr.org</a></p>
+      <p><strong>Cleveland, TN Community Resources</strong><br>Serving Cleveland &amp; Bradley County, Tennessee<br><a href="mailto:info@ctncr.org">info@ctncr.org</a> · <a href="tel:4237904724">423-790-4724</a></p>
       <p class="social-links">
         <a href="https://instagram.com/clevelandtncommunityresources">Instagram</a>
         <a href="https://www.facebook.com/share/1BhQLh7dQu/?mibextid=wwXIfr">Facebook</a>
@@ -310,6 +377,7 @@
   <script src="events.js"></script>
   <script src="auto-events.js"></script>
   <script src="gallery.js"></script>
+  <script src="stories.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
