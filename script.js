@@ -183,67 +183,85 @@ function hoursOn(site, date) {
   return rule ? rule.time || site.time || "" : null;
 }
 
+// How many days ahead the day picker reaches.
+const CAL_DAYS = 30;
+
 const cal = {
-  grid: document.getElementById("cal-grid"),
-  title: document.getElementById("cal-title"),
-  sites: document.getElementById("cal-sites"),
+  select: document.getElementById("day-select"),
+  list: document.getElementById("day-list"),
+  count: document.getElementById("day-count"),
   legend: document.getElementById("cal-legend"),
   hidden: new Set(), // kinds switched off in the legend
-  month: new Date(startOfToday().getFullYear(), startOfToday().getMonth(), 1),
+  day: "0", // days from today, or "call" for places without set dates
 };
 
-function renderCalendar() {
+function calDate(offset) {
   const today = startOfToday();
-  const year = cal.month.getFullYear();
-  const month = cal.month.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  cal.title.textContent = `${MONTHS[month]} ${year}`;
-
-  const cells = [];
-  for (let i = 0; i < cal.month.getDay(); i++) cells.push(`<li class="cal-blank" aria-hidden="true"></li>`);
-  for (let day = 1; day <= daysInMonth; day++) {
-    const date = new Date(year, month, day);
-    const open = FOOD_SCHEDULE
-      .filter((site) => !cal.hidden.has(site.kind))
-      .map((site) => ({ site, time: hoursOn(site, date) }))
-      .filter((o) => o.time !== null);
-    const classes = ["cal-day"];
-    if (date.getTime() === today.getTime()) classes.push("is-today");
-    if (date < today) classes.push("is-past");
-    if (!open.length) classes.push("is-empty");
-    const items = open.map(({ site, time }) => `
-      <li class="cal-item kind-${site.kind}">
-        <a href="#site-${site.id}"><span class="cal-time">${escapeHtml(time)}</span> ${escapeHtml(site.short)}</a>
-      </li>`).join("");
-    cells.push(`
-      <li class="${classes.join(" ")}">
-        <span class="cal-num" aria-hidden="true">${day}</span>
-        <span class="cal-label">${shortDate(date)}${date.getTime() === today.getTime() ? " (today)" : ""}</span>
-        ${open.length ? `<ul class="cal-items">${items}</ul>` : `<span class="visually-hidden">Nothing scheduled</span>`}
-      </li>`);
-  }
-  cal.grid.innerHTML = cells.join("");
+  return new Date(today.getFullYear(), today.getMonth(), today.getDate() + offset);
 }
 
-function renderFoodSites() {
-  const card = (site) => {
-    const links = [];
-    if (site.phone) links.push(`<a href="${telHref(site.phone)}">Call ${escapeHtml(site.phone)}</a>`);
-    if (site.address) links.push(`<a href="${mapHref(site.address)}" target="_blank" rel="noopener">Directions</a>`);
-    if (site.url) links.push(`<a href="${escapeHtml(site.url)}" target="_blank" rel="noopener">Website</a>`);
-    return `
-      <article class="card" id="site-${site.id}">
-        <span class="tag cal-key kind-${site.kind}">${escapeHtml(FOOD_KINDS[site.kind])}</span>
-        <h3>${escapeHtml(site.name)}</h3>
-        <p>${site.repeat ? "" : "<strong>Call for dates:</strong> "}${escapeHtml(site.when)}</p>
-        ${site.notes ? `<p>${escapeHtml(site.notes)}</p>` : ""}
-        ${site.address ? `<p class="address">${escapeHtml(site.address)}</p>` : ""}
-        <div class="card-links">${links.join("")}</div>
-      </article>`;
-  };
-  // Sites with a regular schedule first, then the ones you have to call about.
-  const sorted = [...FOOD_SCHEDULE.filter((s) => s.repeat), ...FOOD_SCHEDULE.filter((s) => !s.repeat)];
-  cal.sites.innerHTML = sorted.map(card).join("");
+function shownSites() {
+  return FOOD_SCHEDULE.filter((site) => !cal.hidden.has(site.kind));
+}
+
+// The places open on a date, each with its hours that day.
+function openOn(date) {
+  return shownSites()
+    .map((site) => ({ site, time: hoursOn(site, date) }))
+    .filter((o) => o.time !== null);
+}
+
+function places(n) {
+  return `${n} ${n === 1 ? "place" : "places"}`;
+}
+
+function renderDayOptions() {
+  const options = [];
+  for (let i = 0; i < CAL_DAYS; i++) {
+    const date = calDate(i);
+    const name = i === 0 ? `Today, ${shortDate(date)}` : i === 1 ? `Tomorrow, ${shortDate(date)}` : shortDate(date);
+    options.push(`<option value="${i}">${name} (${places(openOn(date).length)})</option>`);
+  }
+  const callCount = shownSites().filter((site) => !site.repeat).length;
+  options.push(`<option value="call">Dates vary, call ahead (${places(callCount)})</option>`);
+  cal.select.innerHTML = options.join("");
+  cal.select.value = cal.day;
+}
+
+function foodCard({ site, time }) {
+  const links = [];
+  if (site.phone) links.push(`<a href="${telHref(site.phone)}">Call ${escapeHtml(site.phone)}</a>`);
+  if (site.address) links.push(`<a href="${mapHref(site.address)}" target="_blank" rel="noopener">Directions</a>`);
+  if (site.url) links.push(`<a href="${escapeHtml(site.url)}" target="_blank" rel="noopener">Website</a>`);
+  return `
+    <li class="card day-card kind-${site.kind}" id="site-${site.id}">
+      <span class="tag cal-key">${escapeHtml(FOOD_KINDS[site.kind])}</span>
+      ${time ? `<p class="day-time">${escapeHtml(time)}</p>` : ""}
+      <h3>${escapeHtml(site.name)}</h3>
+      <p>${site.repeat ? "" : "<strong>Call for dates:</strong> "}${escapeHtml(site.when)}</p>
+      ${site.notes ? `<p>${escapeHtml(site.notes)}</p>` : ""}
+      ${site.address ? `<p class="address">${escapeHtml(site.address)}</p>` : ""}
+      <div class="card-links">${links.join("")}</div>
+    </li>`;
+}
+
+function renderDay() {
+  let open;
+  if (cal.day === "call") {
+    open = shownSites().filter((site) => !site.repeat).map((site) => ({ site, time: "" }));
+    cal.count.textContent = `${places(open.length)} with dates that change. Call to ask when they're open next.`;
+  } else {
+    const offset = Number(cal.day);
+    const date = calDate(offset);
+    open = openOn(date);
+    const when = offset === 0 ? "today" : offset === 1 ? "tomorrow" : `on ${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}`;
+    cal.count.textContent = open.length ? `${places(open.length)} open ${when}.` : "";
+  }
+  cal.list.classList.toggle("is-single", open.length < 2);
+  cal.list.scrollLeft = 0;
+  cal.list.innerHTML = open.length
+    ? open.map(foodCard).join("")
+    : `<li class="empty"><p><strong>Nothing on the calendar this day.</strong></p><p>Try another day, or pick “Dates vary, call ahead” in the list.</p></li>`;
 }
 
 function renderLegend() {
@@ -253,7 +271,7 @@ function renderLegend() {
     .join("");
 }
 
-// Tapping a legend key shows or hides that kind on the calendar.
+// Tapping a legend key shows or hides that kind.
 cal.legend.addEventListener("click", (e) => {
   const key = e.target.closest("[data-kind]");
   if (!key) return;
@@ -261,24 +279,18 @@ cal.legend.addEventListener("click", (e) => {
   if (cal.hidden.has(kind)) cal.hidden.delete(kind);
   else cal.hidden.add(kind);
   renderLegend();
-  renderCalendar();
+  renderDayOptions();
+  renderDay();
 });
 
-function shiftMonth(delta) {
-  cal.month = new Date(cal.month.getFullYear(), cal.month.getMonth() + delta, 1);
-  renderCalendar();
-}
-document.getElementById("cal-prev").addEventListener("click", () => shiftMonth(-1));
-document.getElementById("cal-next").addEventListener("click", () => shiftMonth(1));
-document.getElementById("cal-today").addEventListener("click", () => {
-  const today = startOfToday();
-  cal.month = new Date(today.getFullYear(), today.getMonth(), 1);
-  renderCalendar();
+cal.select.addEventListener("change", () => {
+  cal.day = cal.select.value;
+  renderDay();
 });
 
 renderLegend();
-renderCalendar();
-renderFoodSites();
+renderDayOptions();
+renderDay();
 
 // ---- Community bulletin board ----
 
@@ -341,27 +353,129 @@ function showPhoto(index) {
   lightbox.caption.hidden = !photo.caption;
 }
 
-function renderGallery() {
-  if (!GALLERY.length) return;
-  document.getElementById("photos").hidden = false;
-  document.querySelectorAll(".gallery-link").forEach((link) => { link.hidden = false; });
-  document.getElementById("gallery").innerHTML = GALLERY.map((photo, i) => `
-    <li>
-      <button type="button" class="gallery-item${photo.whole ? " gallery-item-whole" : ""}" data-index="${i}" aria-label="View larger: ${escapeHtml(photo.caption || photo.alt || `photo ${i + 1}`)}">
-        <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy">
+// The slideshow advances on its own every few seconds, pauses while someone
+// is hovering over or using it, and stays still for people who prefer less motion.
+const SLIDE_SECONDS = 6;
+
+const slideshow = {
+  root: document.getElementById("photos"),
+  slides: [],
+  dots: [],
+  pauseBtn: document.getElementById("slide-pause"),
+  index: 0,
+  timer: null,
+  paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  held: false,
+};
+
+function slideHtml(photo, i) {
+  const label = escapeHtml(photo.caption || photo.alt || `photo ${i + 1}`);
+  const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : "";
+  if (photo.quote) {
+    return `
+      <figure class="slide slide-quote" aria-roledescription="slide" aria-label="${i + 1} of ${GALLERY.length}">
+        <button type="button" class="slide-open" data-index="${i}" aria-label="See the original message: ${label}">
+          <blockquote><p>${escapeHtml(photo.quote)}</p></blockquote>
+        </button>
+        ${caption}
+      </figure>`;
+  }
+  return `
+    <figure class="slide${photo.whole ? " slide-whole" : ""}" aria-roledescription="slide" aria-label="${i + 1} of ${GALLERY.length}">
+      <button type="button" class="slide-open" data-index="${i}" aria-label="View larger: ${label}">
+        <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}"${i ? ' loading="lazy"' : ""}>
       </button>
-    </li>`).join("");
-  const multiple = GALLERY.length > 1;
-  document.getElementById("lightbox-prev").hidden = !multiple;
-  document.getElementById("lightbox-next").hidden = !multiple;
+      ${caption}
+    </figure>`;
 }
 
-document.getElementById("gallery").addEventListener("click", (e) => {
-  const item = e.target.closest(".gallery-item");
+function goToSlide(index) {
+  slideshow.index = (index + GALLERY.length) % GALLERY.length;
+  slideshow.slides.forEach((slide, i) => {
+    const active = i === slideshow.index;
+    slide.classList.toggle("is-active", active);
+    slide.inert = !active;
+    slide.setAttribute("aria-hidden", String(!active));
+  });
+  slideshow.dots.forEach((dot, i) => dot.setAttribute("aria-current", String(i === slideshow.index)));
+}
+
+function scheduleSlide() {
+  clearTimeout(slideshow.timer);
+  if (slideshow.paused || slideshow.held || GALLERY.length < 2) return;
+  slideshow.timer = setTimeout(() => {
+    goToSlide(slideshow.index + 1);
+    scheduleSlide();
+  }, SLIDE_SECONDS * 1000);
+}
+
+function setPaused(paused) {
+  slideshow.paused = paused;
+  slideshow.pauseBtn.textContent = paused ? "▶" : "❚❚";
+  slideshow.pauseBtn.setAttribute("aria-label", paused ? "Play slideshow" : "Pause slideshow");
+  scheduleSlide();
+}
+
+function renderGallery() {
+  if (!GALLERY.length) return;
+  slideshow.root.hidden = false;
+  document.querySelectorAll(".gallery-link").forEach((link) => { link.hidden = false; });
+  const slidesEl = document.getElementById("slides");
+  slidesEl.innerHTML = GALLERY.map(slideHtml).join("");
+  slideshow.slides = [...slidesEl.children];
+  const dotsEl = document.getElementById("slide-dots");
+  dotsEl.innerHTML = GALLERY.map((photo, i) => `
+    <button type="button" class="slide-dot" data-index="${i}" aria-label="Photo ${i + 1}: ${escapeHtml(photo.caption || photo.alt || "")}"></button>`).join("");
+  slideshow.dots = [...dotsEl.children];
+  const multiple = GALLERY.length > 1;
+  document.querySelector(".slideshow-controls").hidden = !multiple;
+  document.getElementById("lightbox-prev").hidden = !multiple;
+  document.getElementById("lightbox-next").hidden = !multiple;
+  goToSlide(0);
+  setPaused(slideshow.paused);
+}
+
+document.getElementById("slides").addEventListener("click", (e) => {
+  const item = e.target.closest(".slide-open");
   if (!item) return;
   showPhoto(Number(item.dataset.index));
   lightbox.dialog.showModal();
 });
+document.getElementById("slide-dots").addEventListener("click", (e) => {
+  const dot = e.target.closest(".slide-dot");
+  if (!dot) return;
+  goToSlide(Number(dot.dataset.index));
+  scheduleSlide();
+});
+document.getElementById("slide-prev").addEventListener("click", () => { goToSlide(slideshow.index - 1); scheduleSlide(); });
+document.getElementById("slide-next").addEventListener("click", () => { goToSlide(slideshow.index + 1); scheduleSlide(); });
+slideshow.pauseBtn.addEventListener("click", () => setPaused(!slideshow.paused));
+
+// Hold still while someone is looking closely, reading a long quote or using the buttons.
+function hold(held) {
+  slideshow.held = held;
+  scheduleSlide();
+}
+slideshow.root.addEventListener("mouseenter", () => hold(true));
+slideshow.root.addEventListener("mouseleave", () => hold(false));
+slideshow.root.addEventListener("focusin", () => hold(true));
+slideshow.root.addEventListener("focusout", (e) => {
+  if (!slideshow.root.contains(e.relatedTarget) && !lightbox.dialog.open) hold(false);
+});
+lightbox.dialog.addEventListener("close", () => hold(slideshow.root.matches(":hover, :focus-within")));
+
+// Swipe left or right on phones.
+let touchStartX = null;
+slideshow.root.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+slideshow.root.addEventListener("touchend", (e) => {
+  if (touchStartX === null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  touchStartX = null;
+  if (Math.abs(dx) < 40) return;
+  goToSlide(slideshow.index + (dx < 0 ? 1 : -1));
+  scheduleSlide();
+}, { passive: true });
+
 document.getElementById("lightbox-close").addEventListener("click", () => lightbox.dialog.close());
 document.getElementById("lightbox-prev").addEventListener("click", () => showPhoto(lightbox.index - 1));
 document.getElementById("lightbox-next").addEventListener("click", () => showPhoto(lightbox.index + 1));
