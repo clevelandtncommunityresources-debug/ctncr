@@ -58,8 +58,14 @@
             <a class="btn btn-ghost" href="#donate">Support CTNCR</a>
           </div>
         </div>
-        <div class="hero-logo">
-          <img src="assets/logo.png" alt="Cleveland, TN Community Resources logo: a hand-drawn raccoon behind the organization's name" width="716" height="716">
+        <div class="slideshow" id="photos" role="region" aria-roledescription="carousel" aria-label="Photos from our community" hidden>
+          <div class="slides" id="slides"></div>
+          <div class="slideshow-controls">
+            <button type="button" class="slideshow-btn" id="slide-prev" aria-label="Previous photo">‹</button>
+            <div class="slide-dots" id="slide-dots" role="group" aria-label="Choose a photo"></div>
+            <button type="button" class="slideshow-btn" id="slide-pause" aria-label="Pause slideshow">❚❚</button>
+            <button type="button" class="slideshow-btn" id="slide-next" aria-label="Next photo">›</button>
+          </div>
         </div>
       </div>
       <div class="wrap">
@@ -144,28 +150,21 @@
       <div class="wrap">
         <div class="section-head">
           <h2 id="food-calendar-title">Food calendar</h2>
-          <p>Free meals, food pantries and mobile pantries across Bradley County, day by day, cross-checked with the <a href="https://cbfp.news/resources/food-pantries/">CBFP.news</a> food listings. Schedules change, so please call ahead before you go.</p>
+          <p>Free meals, food pantries and mobile pantries across Bradley County. Pick a day to see what&rsquo;s open. Cross-checked with the <a href="https://cbfp.news/resources/food-pantries/">CBFP.news</a> food listings. Schedules change, so please call ahead before you go.</p>
         </div>
 
         <div class="cal">
           <div class="cal-toolbar">
-            <h3 class="cal-title" id="cal-title" aria-live="polite"></h3>
-            <div class="cal-buttons">
-              <button type="button" class="cal-btn" id="cal-prev" aria-label="Previous month">‹</button>
-              <button type="button" class="cal-btn" id="cal-today">Today</button>
-              <button type="button" class="cal-btn" id="cal-next" aria-label="Next month">›</button>
-            </div>
+            <label class="day-picker">
+              <span class="day-picker-label">Show food for</span>
+              <select id="day-select"></select>
+            </label>
+            <div class="cal-legend" id="cal-legend" role="group" aria-label="Show on calendar"></div>
           </div>
-          <p class="cal-hint">Tap a key to show or hide it on the calendar.</p>
-          <div class="cal-legend" id="cal-legend" role="group" aria-label="Show on calendar"></div>
-          <ol class="cal-weekdays" aria-hidden="true">
-            <li>Sun</li><li>Mon</li><li>Tue</li><li>Wed</li><li>Thu</li><li>Fri</li><li>Sat</li>
-          </ol>
-          <ol class="cal-grid" id="cal-grid"></ol>
+          <p class="day-count" id="day-count" aria-live="polite"></p>
+          <ul class="day-list" id="day-list"></ul>
+          <p class="cal-hint day-swipe-hint">Swipe sideways to see more places.</p>
         </div>
-
-        <h3 class="cal-sites-title">Where and when</h3>
-        <div class="cards" id="cal-sites"></div>
         <p class="fine-print">More food help, like senior meal delivery, is in the <a href="#resources" data-jump="food">resource directory</a>. Want a pantry added to the calendar? <a href="mailto:info@ctncr.org?subject=Food%20calendar">Email us</a>.</p>
       </div>
     </section>
@@ -257,16 +256,6 @@
             </p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="photos" aria-labelledby="photos-title" hidden>
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="photos-title">Photos</h2>
-          <p>Neighbors showing up for each other.</p>
-        </div>
-        <ul class="gallery" id="gallery"></ul>
       </div>
     </section>
 

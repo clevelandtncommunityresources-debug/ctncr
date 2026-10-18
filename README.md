@@ -6,12 +6,12 @@ A static site with no build step and no dependencies: open `index.html` in a bro
 
 ## Files
 
-- `index.html` — page content (hero, resource directory, food calendar, bulletin board, campaigns, about, get involved, photos, donate)
+- `index.html` — page content (hero with photo slideshow, resource directory, food calendar, bulletin board, campaigns, about, get involved, donate)
 - `resources.js` — **the resource directory data**; edit this to add, change or remove listings
-- `food-schedule.js` — **food calendar data**: which days and times each pantry or meal is open
+- `food-schedule.js` — **food calendar data**: which days and times each pantry or meal is open. The calendar shows today's food and a dropdown to pick another day
 - `events.js` — **bulletin board events**; past events drop off the board automatically
-- `gallery.js` — **photo gallery list**; photos go in `assets/gallery/`. The Photos section stays hidden until the list has at least one photo
-- `script.js` — search/filter logic, food calendar, bulletin board, photo gallery and mobile menu
+- `gallery.js` — **photo slideshow list**, shown at the top of the page in the order listed; photos go in `assets/gallery/`. The slideshow stays hidden until the list has at least one photo
+- `script.js` — search/filter logic, food calendar, bulletin board, photo slideshow and mobile menu
 - `styles.css` — styles (includes dark mode)
 - `assets/` — logo (from the CTNCR Linktree) and favicon
 
