@@ -15,17 +15,18 @@
 //   description  (optional) A sentence or two
 //   url          (optional) Link for more info or sign-up
 //
-// Library programs are pulled in automatically (see library-events.js), so
-// they don't need to be added here.
+// Only post events that are free to attend. Library programs, free events on
+// Visit Cleveland TN and city public meetings are pulled in automatically (see
+// auto-events.js), so they don't need to be added here.
 
 const EVENTS = [
   {
     title: "Fall Festival 2026",
     date: "2026-10-18",
     location: "New Friendship Baptist Church",
-    address: "New Friendship Baptist Church, Charleston, TN",
+    address: "1344 Chatata Valley Rd NE, Cleveland, TN 37323",
     host: "New Friendship Baptist Church",
-    description: "A fall festival in Charleston. See the Facebook event for times and details.",
+    description: "Games, inflatables, candy and food, and everything is free. Bring your family and friends! See the Facebook event for times.",
     url: "https://www.facebook.com/events/28138818329154520/",
   },
   // {
