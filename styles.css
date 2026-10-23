@@ -173,7 +173,7 @@ a { color: var(--brand); }
 .program-icon { font-size: 1.7rem; }
 .program h4 { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-weight: 800; font-size: 1.15rem; line-height: 1.25; margin: 8px 0 8px; }
 .program p { font-size: 0.95rem; color: var(--muted); margin: 0; }
-.approach { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; margin-top: 40px; padding: 28px; background: var(--bg-alt); border-radius: var(--radius); }
+.approach { display: grid; grid-template-columns: 1fr; gap: 24px 48px; margin-top: 40px; padding: 28px; background: var(--bg-alt); border-radius: var(--radius); }
 .approach p { color: var(--muted); }
 .approach p:last-child { margin-bottom: 0; }
 .who-contact { color: var(--text) !important; }
