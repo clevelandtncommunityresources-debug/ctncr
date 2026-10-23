@@ -177,6 +177,21 @@ a { color: var(--brand); }
 .approach p { color: var(--muted); }
 .approach p:last-child { margin-bottom: 0; }
 .who-contact { color: var(--text) !important; }
+.leadership { margin-top: 40px; }
+.leadership-thanks { max-width: 640px; color: var(--muted); }
+.leader-grid { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.leader {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+}
+.leader-initial {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; background: var(--brand-soft); color: var(--brand);
+}
+.leader:nth-child(3n+2) .leader-initial { background: var(--warm-soft); color: var(--warm); }
+.leader:nth-child(3n) .leader-initial { background: var(--pantry-soft); color: var(--pantry); }
+.leader-name { display: flex; flex-direction: column; line-height: 1.3; }
+.leader-role { color: var(--muted); font-size: 0.88rem; }
 .further-reading { margin-top: 20px; }
 .further-reading summary { cursor: pointer; font-weight: 600; color: var(--brand); }
 .further-reading ul { margin: 10px 0 0; padding-left: 1.2em; }
@@ -514,6 +529,7 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
   .crisis-bar strong { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .quick-links { grid-template-columns: 1fr 1fr; }
   .program-grid { grid-template-columns: 1fr; }
+  .leader-grid { grid-template-columns: 1fr 1fr; }
   .section { padding: 56px 0; }
 }
 
