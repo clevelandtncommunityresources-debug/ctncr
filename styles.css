@@ -247,7 +247,7 @@ a { color: var(--brand); }
 }
 .card h3 { font-family: var(--font-body); font-size: 1.08rem; font-weight: 600; margin: 10px 0 6px; }
 .card p { font-size: 0.95rem; margin-bottom: 0.5em; }
-.card .address { color: var(--muted); }
+.card .address, .card .hours { color: var(--muted); }
 .card-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: auto; padding-top: 10px; font-weight: 600; font-size: 0.93rem; }
 .tag { align-self: flex-start; font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); }
 .empty { grid-column: 1 / -1; padding: 32px; text-align: center; background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); }

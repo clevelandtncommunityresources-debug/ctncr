@@ -19,7 +19,8 @@ function escapeHtml(str) {
 }
 
 function telHref(phone) {
-  return "tel:" + phone.replace(/[^\d]/g, "");
+  // Drop any extension: "(423) 664-1200 ext. 5302" dials the main line.
+  return "tel:" + phone.split(/ext/i)[0].replace(/[^\d]/g, "");
 }
 
 function mapHref(address) {
@@ -37,7 +38,7 @@ function renderChips() {
 function matches(resource) {
   if (state.category && state.category !== "all" && resource.category !== state.category) return false;
   if (!state.query) return true;
-  const haystack = [resource.name, resource.notes, resource.address, CATEGORIES[resource.category]]
+  const haystack = [resource.name, resource.notes, resource.address, resource.area, CATEGORIES[resource.category]]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
@@ -54,7 +55,8 @@ function renderCard(r) {
       <span class="tag tag-${r.category}">${escapeHtml(CATEGORIES[r.category])}</span>
       <h3>${escapeHtml(r.name)}</h3>
       ${r.notes ? `<p>${escapeHtml(r.notes)}</p>` : ""}
-      ${r.address ? `<p class="address">${escapeHtml(r.address)}</p>` : ""}
+      ${r.hours ? `<p class="hours">${escapeHtml(r.hours)}</p>` : ""}
+      ${r.address || r.area ? `<p class="address">${escapeHtml(r.address || r.area)}</p>` : ""}
       <div class="card-links">${links.join("")}</div>
     </article>`;
 }
