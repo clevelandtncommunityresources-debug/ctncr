@@ -433,6 +433,22 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
 .priorities li { margin-bottom: 6px; }
 .priorities strong { color: #fff; }
 .donate-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 8px 0 4px; }
+/* Latest from CBFP.news */
+.news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.news-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 20px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+  color: var(--text); text-decoration: none; transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.news-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+.news-featured { grid-column: 1 / -1; padding: 28px; border-top: 5px solid var(--coral); }
+.news-featured .news-summary { max-width: 720px; }
+.news-date { font-family: var(--font-label); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warm); }
+.news-title { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.25; }
+.news-featured .news-title { font-size: 1.7rem; }
+.news-summary { color: var(--muted); font-size: 0.95rem; }
+.news-featured .news-summary { font-size: 1.05rem; }
+.news-cta { margin-top: auto; padding-top: 6px; color: var(--brand); font-weight: 600; }
 
 /* Footer */
 .site-footer { padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.93rem; }
@@ -450,7 +466,9 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
   .story-text { padding: 26px 24px 28px; }
   .slides { aspect-ratio: 1; max-height: 70vh; }
   .quick-links { grid-template-columns: repeat(3, 1fr); }
-  .involve-grid, .footer-inner, .campaign-grid, .partner-grid { grid-template-columns: 1fr; }
+  .involve-grid, .footer-inner, .campaign-grid, .partner-grid, .news-grid { grid-template-columns: 1fr; }
+  .news-featured { padding: 22px; }
+  .news-featured .news-title { font-size: 1.4rem; }
   .partner { padding: 20px; }
   .brand-long { display: none; }
   .brand > span { justify-content: center; }

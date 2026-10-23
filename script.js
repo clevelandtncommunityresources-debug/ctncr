@@ -409,6 +409,24 @@ board.select.addEventListener("change", () => {
 renderBoardOptions();
 renderBoard();
 
+// ---- Latest from CBFP.news ----
+
+// The newest article gets the big card; the next ones sit beside it.
+function newsCard(article, featured) {
+  const date = parseDate(article.date);
+  return `<a class="news-card${featured ? " news-featured" : ""}" href="${escapeHtml(article.url)}">
+    <span class="news-date">${featured ? "Newest · " : ""}${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}</span>
+    <strong class="news-title">${escapeHtml(article.title)}</strong>
+    ${article.summary ? `<span class="news-summary">${escapeHtml(article.summary)}</span>` : ""}
+    <span class="news-cta">${featured ? "Read the article" : "Read"} →</span>
+  </a>`;
+}
+
+if (typeof CBFP_NEWS !== "undefined" && CBFP_NEWS.length) {
+  document.getElementById("news-list").innerHTML =
+    CBFP_NEWS.map((article, i) => newsCard(article, i === 0)).join("");
+}
+
 // ---- Photo gallery ----
 
 const lightbox = {
