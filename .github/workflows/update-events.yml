@@ -18,6 +18,8 @@ jobs:
           python-version: "3.12"
       - run: pip install icalendar recurring_ical_events
       - run: python scripts/update_events.py
+      - run: python scripts/update_news.py
+        continue-on-error: true # if CBFP.news is down, still save the events
       - name: Commit if the events changed
         run: |
           # Ignore the "Last updated" line so a quiet day doesn't make a commit.
@@ -29,4 +31,15 @@ jobs:
             git push
           else
             echo "No changes to events."
+          fi
+      - name: Commit if the CBFP.news articles changed
+        run: |
+          if git diff -U0 cbfp-news.js | grep '^[-+][^-+]' | grep -qv 'Last updated'; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
+            git add cbfp-news.js
+            git commit -m "Update CBFP.news articles"
+            git push
+          else
+            echo "No new CBFP.news articles."
           fi
