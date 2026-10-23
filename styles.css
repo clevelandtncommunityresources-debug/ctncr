@@ -400,7 +400,7 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
 .lightbox-next { right: 10px; }
 
 /* Campaigns */
-.campaign-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.campaign-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .campaign {
   position: relative; display: flex; flex-direction: column; padding: 26px; overflow: hidden;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
