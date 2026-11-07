@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#870031">
+  <title>Local News · CTNCR</title>
+  <meta name="description" content="Free, independent local news for Cleveland and Bradley County, TN from our friends at CBFP.news, the Cleveland-Bradley Free Press.">
+  <meta property="og:title" content="Local News · Cleveland, TN Community Resources">
+  <meta property="og:description" content="Free, independent local news for Cleveland and Bradley County, TN from our friends at CBFP.news, the Cleveland-Bradley Free Press.">
+  <meta property="og:image" content="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Inter:wght@400;500;600&family=Montserrat:wght@800&family=Noto+Sans+Cherokee:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="page-local-news">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="crisis-bar" role="region" aria-label="Emergency help">
+    <div class="wrap">
+      <strong>Need help now?</strong>
+      <a href="tel:911"><b>911</b> emergency</a>
+      <a href="tel:988"><b>988</b> crisis line</a>
+      <a href="tel:211"><b>211</b> local help</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="CTNCR home">
+        <img class="brand-mark" src="assets/logo-240.png" alt="" width="44" height="44">
+        <span><span class="brand-short">CTNCR</span><span class="brand-long">Cleveland, TN Community Resources</span></span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="index.html#about">About</a>
+        <a href="index.html#stories">Stories</a>
+        <a href="index.html#resources">Find help</a>
+        <a href="index.html#food-calendar">Food days</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#campaigns">Campaigns</a>
+        <a href="index.html#get-involved">Get involved</a>
+        <a class="btn btn-small" href="index.html#donate">Donate</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="tabbar" aria-label="Sections">
+    <div class="wrap tabbar-inner">
+      <a href="index.html"><span class="tab-icon" aria-hidden="true">🏠</span>Home</a>
+      <a href="sky.html"><span class="tab-icon" aria-hidden="true">🌙</span>Weather &amp; Sky <span class="tab-wx" id="tab-wx" hidden></span></a>
+      <a href="prepare.html"><span class="tab-icon" aria-hidden="true">🧰</span>Be Prepared</a>
+      <a href="local-news.html"><span class="tab-icon" aria-hidden="true">🗞️</span>Local News</a>
+      <a href="world-news.html"><span class="tab-icon" aria-hidden="true">🌍</span>World News</a>
+      <a href="land.html"><span class="tab-icon" aria-hidden="true">🪶</span>Our Land</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="cbfp-hero" aria-labelledby="cbfp-title">
+      <div class="wrap">
+        <div class="cbfp-masthead">
+          <p class="eyebrow">Local news · Cleveland &amp; Bradley County</p>
+          <span class="cbfp-date" id="cbfp-date"></span>
+        </div>
+        <h1 class="cbfp-title" id="cbfp-title">The Cleveland-Bradley <span>Free Press</span></h1>
+        <p class="cbfp-tag">Free, independent local news, the civic record and community notices for the people of Bradley County. Free to read, from our friends at CBFP.news.</p>
+        <div class="cbfp-actions">
+          <a class="btn btn-coral" data-cbfp="hero" href="https://cbfp.news/news/">Read today’s news at CBFP.news</a>
+          <a class="btn btn-outline-light" data-cbfp="hero" href="https://cbfp.news/council/">What our local government did</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="latest-title" style="padding-top: 0;">
+      <div class="wrap">
+        <a class="lead-story" id="lead-story" data-cbfp="lead" href="https://cbfp.news/news/">
+          <div class="lead-story-text">
+            <span class="lead-kicker">Top story</span>
+            <h2 id="latest-title">Read the latest from CBFP.news</h2>
+            <p></p>
+            <span class="lead-cta">Read the full story at CBFP.news →</span>
+          </div>
+          <div class="lead-story-side">
+            <p class="quote">Local news, written for the people who live here.</p>
+          </div>
+        </a>
+
+        <div class="section-head" style="margin-top: 48px;">
+          <h2>More from CBFP.news</h2>
+          <p>Every story opens on CBFP.news. Reading it there is how you support local journalism.</p>
+        </div>
+        <div class="story-grid" id="story-grid"></div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="sections-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="sections-title">Everything at CBFP.news</h2>
+          <p>More than news: a jobs and rental board, your local government’s meetings, and a resource directory.</p>
+        </div>
+        <div class="cbfp-sections">
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/news/"><span aria-hidden="true">📰</span><strong>News</strong><small>Reporting on the issues that shape life in Bradley County.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/council/"><span aria-hidden="true">🏛️</span><strong>Civic record</strong><small>What the County Commission, City Council and school boards did at each meeting.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/exchange/jobs/"><span aria-hidden="true">💼</span><strong>Jobs</strong><small>Local job listings.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/exchange/rentals/"><span aria-hidden="true">🏠</span><strong>Rentals</strong><small>Places to rent around Cleveland.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/exchange/classifieds/"><span aria-hidden="true">🏷️</span><strong>Classifieds</strong><small>Buy, sell, swap and give away.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/events/"><span aria-hidden="true">📅</span><strong>Events</strong><small>What’s happening around town.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/opinion/"><span aria-hidden="true">💬</span><strong>Opinion</strong><small>Neighbors speak their minds.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/front-porch/"><span aria-hidden="true">🪑</span><strong>The Front Porch</strong><small>Living well on less: eating cheap and well, stretching a paycheck.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/resources/"><span aria-hidden="true">📚</span><strong>Resources</strong><small>200+ listings for food, shelter, health care, legal aid and more.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/history/"><span aria-hidden="true">🪶</span><strong>History</strong><small>The story of this place and its people.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/obituaries/"><span aria-hidden="true">🕊️</span><strong>Obituaries</strong><small>Remembering our neighbors.</small></a>
+          <a class="cbfp-section" data-cbfp="sections" href="https://cbfp.news/es/"><span aria-hidden="true">🌎</span><strong>En español</strong><small>Noticias locales en español.</small></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="plug-title">
+      <div class="wrap">
+        <div class="cbfp-plug">
+          <div>
+            <h2 id="plug-title">Local news is mutual aid.</h2>
+            <p>When nobody is watching city hall, the people who pay are the ones already struggling. CBFP.news keeps watch for free. The best way to keep it going is to read it, share it, and tell them what’s happening on your street.</p>
+            <div class="cbfp-actions">
+              <a class="btn btn-light" data-cbfp="plug" href="https://cbfp.news/">Visit CBFP.news</a>
+              <a class="btn btn-outline-light" data-cbfp="plug" href="https://cbfp.news/about/">About the Free Press</a>
+            </div>
+          </div>
+          <ul>
+            <li><span aria-hidden="true">👀</span> <span><strong>Read it.</strong> Every visit tells them the work matters.</span></li>
+            <li><span aria-hidden="true">🔁</span> <span><strong>Share it</strong> in your group chats and on Facebook.</span></li>
+            <li><span aria-hidden="true">✍️</span> <span><strong>Post</strong> a job, rental or classified on <a data-cbfp="plug" href="https://cbfp.news/account/post/" style="color:#fff">the Exchange</a>.</span></li>
+            <li><span aria-hidden="true">📣</span> <span><strong>Tell them</strong> what’s happening in your neighborhood. Local news starts with neighbors.</span></li>
+          </ul>
+        </div>
+        <p class="fine-print">Prefer world headlines? See the <a href="world-news.html">World News</a> tab.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Cleveland, TN Community Resources</strong><br>Serving Cleveland &amp; Bradley County, Tennessee<br><a href="mailto:info@ctncr.org">info@ctncr.org</a></p>
+      <p class="social-links">
+        <a href="https://instagram.com/clevelandtncommunityresources">Instagram</a>
+        <a href="https://www.facebook.com/share/1BhQLh7dQu/?mibextid=wwXIfr">Facebook</a>
+        <a href="https://tiktok.com/@ctncr1">TikTok</a>
+        <a href="https://linktr.ee/clevelandresources">Linktree</a>
+        <span>Friends: <a href="https://cbfp.news/?utm_source=ctncr.org&amp;utm_medium=referral&amp;utm_campaign=footer">CBFP.news</a></span>
+      </p>
+      <p class="fine-print">In an emergency, call <a href="tel:911">911</a>. For crisis support, call or text <a href="tel:988">988</a>.<br>&copy; <span id="year"></span> CTNCR. Listings are for information only and are not endorsements.</p>
+    </div>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="cbfp-news.js"></script>
+  <script src="local-news.js"></script>
+</body>
+</html>

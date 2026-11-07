@@ -11,7 +11,7 @@
   <meta property="og:image" content="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Inter:wght@400;500;600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Inter:wght@400;500;600&family=Montserrat:wght@800&family=Noto+Sans+Cherokee:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
@@ -46,6 +46,16 @@
       </nav>
     </div>
   </header>
+  <nav class="tabbar" aria-label="Sections">
+    <div class="wrap tabbar-inner">
+      <a href="index.html"><span class="tab-icon" aria-hidden="true">🏠</span>Home</a>
+      <a href="sky.html"><span class="tab-icon" aria-hidden="true">🌙</span>Weather &amp; Sky <span class="tab-wx" id="tab-wx" hidden></span></a>
+      <a href="prepare.html"><span class="tab-icon" aria-hidden="true">🧰</span>Be Prepared</a>
+      <a href="local-news.html"><span class="tab-icon" aria-hidden="true">🗞️</span>Local News</a>
+      <a href="world-news.html"><span class="tab-icon" aria-hidden="true">🌍</span>World News</a>
+      <a href="land.html"><span class="tab-icon" aria-hidden="true">🪶</span>Our Land</a>
+    </div>
+  </nav>
 
   <main id="main">
     <section class="hero" id="top">
@@ -302,8 +312,34 @@
           </a>
         </div>
         <p class="board-cta">
-          <a class="btn btn-ghost" href="https://cbfp.news/news/">More stories at CBFP.news</a>
+          <a class="btn" href="local-news.html">More local news</a>
+          <a class="btn btn-ghost" href="https://cbfp.news/news/?utm_source=ctncr.org&amp;utm_medium=referral&amp;utm_campaign=home">More stories at CBFP.news</a>
         </p>
+      </div>
+    </section>
+
+    <section class="section otd" id="on-this-date" aria-labelledby="otd-title">
+      <div class="wrap">
+        <div class="otd-head">
+          <div class="otd-stamp" aria-hidden="true"><span id="otd-month"></span><strong id="otd-day"></strong></div>
+          <div>
+            <p class="eyebrow">History</p>
+            <h2 id="otd-title">On this date: <span id="otd-date"></span></h2>
+            <p>What happened today, here at home on Cherokee land and around the world.</p>
+          </div>
+        </div>
+        <div class="otd-grid">
+          <div class="otd-local-col">
+            <h3 id="otd-local-head">Here at home</h3>
+            <ol class="otd-local" id="otd-local"></ol>
+            <p class="otd-link"><a href="land.html#history">More local and Cherokee history →</a></p>
+          </div>
+          <div class="otd-world-col">
+            <h3>Around the world</h3>
+            <ol class="otd-world" id="otd-world"><li class="otd-fallback">Loading…</li></ol>
+            <p class="otd-link"><a id="otd-more" href="https://en.wikipedia.org/">Everything on this date at Wikipedia →</a></p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -381,6 +417,7 @@
     </div>
   </footer>
 
+  <script src="common.js"></script>
   <script src="resources.js"></script>
   <script src="food-schedule.js"></script>
   <script src="events.js"></script>
@@ -389,5 +426,6 @@
   <script src="gallery.js"></script>
   <script src="stories.js"></script>
   <script src="script.js"></script>
+  <script src="on-this-date.js"></script>
 </body>
 </html>

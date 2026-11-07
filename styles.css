@@ -526,3 +526,75 @@ button.cal-key[aria-pressed="false"] { background: transparent; color: var(--mut
   * { transition: none !important; }
   .slide img { transform: none; }
 }
+
+/* Section tabs (on every page, under the header) */
+.tabbar { background: var(--wine); color: #fff; }
+.tabbar-inner { position: relative; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 6px; padding-bottom: 0; }
+.tabbar-inner::-webkit-scrollbar { display: none; }
+.tabbar a {
+  flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px 10px;
+  color: #f6dbe9; text-decoration: none; font-weight: 600; font-size: 0.93rem; white-space: nowrap;
+  border-radius: 10px 10px 0 0; transition: background 0.15s ease, color 0.15s ease;
+}
+.tabbar a:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.tabbar a[aria-current="page"] { background: var(--bg); color: var(--text); }
+.tabbar a[aria-current="page"] .tab-icon { filter: none; }
+.tab-wx { font-size: 0.82rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); }
+.tabbar a[aria-current="page"] .tab-wx { background: var(--brand-soft); color: var(--brand); }
+.tab-wx[hidden] { display: none; }
+
+/* Weather alert ribbon (shows on every page when the NWS has an alert out) */
+.wx-ribbon { display: block; text-decoration: none; color: #1a1016; font-size: 0.92rem; }
+.wx-ribbon .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; padding-top: 8px; padding-bottom: 8px; }
+.wx-ribbon strong { font-weight: 700; }
+.wx-ribbon-more { text-decoration: underline; }
+.wx-warning { background: #ffd6d1; border-bottom: 2px solid #c4321f; }
+.wx-watch { background: #ffe3c2; border-bottom: 2px solid #c46a00; }
+.wx-advisory { background: #fff3bf; border-bottom: 2px solid #a88400; }
+@media (prefers-color-scheme: dark) {
+  .wx-warning { background: #4a1510; color: #ffd6d1; }
+  .wx-watch { background: #45290c; color: #ffe3c2; }
+  .wx-advisory { background: #3d340c; color: #fff3bf; }
+}
+
+/* On this date (home page) */
+.board-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.otd { background: linear-gradient(180deg, var(--bg), var(--bg-alt)); }
+.otd-head { display: flex; align-items: center; gap: 24px; margin-bottom: 28px; }
+.otd-head h2 { margin-bottom: 0.2em; }
+.otd-head p:last-child { color: var(--muted); margin: 0; }
+.otd-stamp {
+  flex: none; width: 108px; height: 116px; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+  background: var(--surface); box-shadow: var(--shadow); border: 1px solid var(--border); transform: rotate(-4deg);
+}
+.otd-stamp span { background: var(--coral); color: #fff; text-align: center; font-family: var(--font-label); font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.85rem; padding: 6px 0; }
+.otd-stamp strong { flex: 1; display: grid; place-items: center; font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-weight: 900; font-size: 3.4rem; line-height: 1; color: var(--wine); }
+.otd-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; align-items: start; }
+.otd-grid h3 { font-family: var(--font-label); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warm); }
+.otd-local, .otd-world { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.otd-local a {
+  display: grid; gap: 8px; padding: 22px 24px; border-radius: var(--radius); text-decoration: none; color: #fff;
+  background: linear-gradient(135deg, #5a1024, var(--wine) 60%, #b8462f); box-shadow: var(--shadow); transition: transform 0.15s ease;
+}
+.otd-local a:hover { transform: translateY(-2px); }
+.otd-when { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-weight: 900; font-size: 1.9rem; line-height: 1; color: #ffd9cf; }
+.otd-when small { display: block; margin-top: 6px; font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #ffc2b5; }
+.otd-text { font-size: 1.05rem; line-height: 1.5; }
+.otd-world a {
+  display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: start; padding: 12px; border-radius: 14px; text-decoration: none; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.otd-world a:hover { border-color: var(--brand); transform: translateX(3px); }
+.otd-world img, .otd-noimg { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; background: var(--bg-alt); display: grid; place-items: center; font-size: 1.6rem; }
+.otd-world a > span:last-child { font-size: 0.95rem; line-height: 1.45; }
+.otd-year { display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: 0.85rem; }
+.otd-fallback { color: var(--muted); }
+.otd-fallback a { display: block; grid-template-columns: none; }
+.otd-link { margin: 12px 0 0; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .otd-stamp strong { color: var(--brand); } }
+@media (max-width: 860px) {
+  .otd-grid { grid-template-columns: 1fr; }
+  .otd-head { gap: 16px; }
+  .otd-stamp { width: 84px; height: 92px; }
+  .otd-stamp strong { font-size: 2.6rem; }
+}
