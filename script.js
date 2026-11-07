@@ -12,11 +12,7 @@ const els = {
   loadMore: document.getElementById("load-more"),
 };
 
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[c]);
-}
+// escapeHtml() is in common.js.
 
 function telHref(phone) {
   // Drop any extension: "(423) 664-1200 ext. 5302" dials the main line.
@@ -117,22 +113,7 @@ document.querySelectorAll("[data-jump]").forEach((link) => {
   });
 });
 
-// Mobile navigation
-const navToggle = document.querySelector(".nav-toggle");
-const nav = document.getElementById("site-nav");
-navToggle.addEventListener("click", () => {
-  const open = navToggle.getAttribute("aria-expanded") === "true";
-  navToggle.setAttribute("aria-expanded", String(!open));
-  nav.classList.toggle("open", !open);
-});
-nav.addEventListener("click", (e) => {
-  if (e.target.closest("a")) {
-    navToggle.setAttribute("aria-expanded", "false");
-    nav.classList.remove("open");
-  }
-});
-
-document.getElementById("year").textContent = new Date().getFullYear();
+// The mobile menu and the footer year are in common.js.
 
 renderChips();
 render();
@@ -414,9 +395,18 @@ renderBoard();
 // ---- Latest from CBFP.news ----
 
 // The newest article gets the big card; the next ones sit beside it.
+// Links to CBFP.news are tagged so they can see the readers we send them.
+function cbfpLink(url, campaign) {
+  const u = new URL(url);
+  u.searchParams.set("utm_source", "ctncr.org");
+  u.searchParams.set("utm_medium", "referral");
+  u.searchParams.set("utm_campaign", campaign);
+  return u.toString();
+}
+
 function newsCard(article, featured) {
   const date = parseDate(article.date);
-  return `<a class="news-card${featured ? " news-featured" : ""}" href="${escapeHtml(article.url)}">
+  return `<a class="news-card${featured ? " news-featured" : ""}" href="${escapeHtml(cbfpLink(article.url, "home"))}">
     <span class="news-date">${featured ? "Newest · " : ""}${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}</span>
     <strong class="news-title">${escapeHtml(article.title)}</strong>
     ${article.summary ? `<span class="news-summary">${escapeHtml(article.summary)}</span>` : ""}
@@ -426,7 +416,7 @@ function newsCard(article, featured) {
 
 if (typeof CBFP_NEWS !== "undefined" && CBFP_NEWS.length) {
   document.getElementById("news-list").innerHTML =
-    CBFP_NEWS.map((article, i) => newsCard(article, i === 0)).join("");
+    CBFP_NEWS.slice(0, 3).map((article, i) => newsCard(article, i === 0)).join("");
 }
 
 // ---- Photo gallery ----

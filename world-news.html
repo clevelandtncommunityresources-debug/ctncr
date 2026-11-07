@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#870031">
+  <title>World News · CTNCR</title>
+  <meta name="description" content="Live world headlines from Al Jazeera and other respected news outlets based outside the United States.">
+  <meta property="og:title" content="World News · Cleveland, TN Community Resources">
+  <meta property="og:description" content="Live world headlines from Al Jazeera and other respected news outlets based outside the United States.">
+  <meta property="og:image" content="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Inter:wght@400;500;600&family=Montserrat:wght@800&family=Noto+Sans+Cherokee:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="page-world-news">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="crisis-bar" role="region" aria-label="Emergency help">
+    <div class="wrap">
+      <strong>Need help now?</strong>
+      <a href="tel:911"><b>911</b> emergency</a>
+      <a href="tel:988"><b>988</b> crisis line</a>
+      <a href="tel:211"><b>211</b> local help</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="CTNCR home">
+        <img class="brand-mark" src="assets/logo-240.png" alt="" width="44" height="44">
+        <span><span class="brand-short">CTNCR</span><span class="brand-long">Cleveland, TN Community Resources</span></span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="index.html#about">About</a>
+        <a href="index.html#stories">Stories</a>
+        <a href="index.html#resources">Find help</a>
+        <a href="index.html#food-calendar">Food days</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#campaigns">Campaigns</a>
+        <a href="index.html#get-involved">Get involved</a>
+        <a class="btn btn-small" href="index.html#donate">Donate</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="tabbar" aria-label="Sections">
+    <div class="wrap tabbar-inner">
+      <a href="index.html"><span class="tab-icon" aria-hidden="true">🏠</span>Home</a>
+      <a href="sky.html"><span class="tab-icon" aria-hidden="true">🌙</span>Weather &amp; Sky <span class="tab-wx" id="tab-wx" hidden></span></a>
+      <a href="prepare.html"><span class="tab-icon" aria-hidden="true">🧰</span>Be Prepared</a>
+      <a href="local-news.html"><span class="tab-icon" aria-hidden="true">🗞️</span>Local News</a>
+      <a href="world-news.html"><span class="tab-icon" aria-hidden="true">🌍</span>World News</a>
+      <a href="land.html"><span class="tab-icon" aria-hidden="true">🪶</span>Our Land</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="page-hero world-hero">
+      <div class="wrap">
+        <p class="eyebrow">World news</p>
+        <h1>The world, from the world.</h1>
+        <p class="lede">Headlines from Al Jazeera and other respected newsrooms based outside the United States, so you can see how the rest of the world is covering the news, including news about us.</p>
+        <p class="world-updated"><span class="live-dot" aria-hidden="true"></span> <span id="world-updated">Updated every hour</span></p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 8px;" aria-label="Headlines">
+      <div class="wrap">
+        <div class="aj-block" id="aj-block" hidden>
+          <div class="aj-head">
+            <h2>Al Jazeera</h2>
+            <span class="src-country">Doha, Qatar</span>
+            <a href="https://www.aljazeera.com/">aljazeera.com →</a>
+          </div>
+          <div class="aj-grid" id="aj-grid"></div>
+        </div>
+
+        <div class="subtabs src-filter" id="src-filter" role="group" aria-label="Show outlet"></div>
+        <div class="src-grid" id="src-grid"></div>
+
+        <p class="fine-print">Headlines and links come from each outlet’s public RSS feed and open on their sites. Some outlets limit free articles. Want a free, live video stream? <a href="https://www.aljazeera.com/live/">Al Jazeera English Live</a>, <a href="https://www.france24.com/en/live">France 24 Live</a> and <a href="https://www.dw.com/en/live-tv/channel-english">DW Live</a> all stream for free. For local news, see the <a href="local-news.html">Local News</a> tab.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Cleveland, TN Community Resources</strong><br>Serving Cleveland &amp; Bradley County, Tennessee<br><a href="mailto:info@ctncr.org">info@ctncr.org</a></p>
+      <p class="social-links">
+        <a href="https://instagram.com/clevelandtncommunityresources">Instagram</a>
+        <a href="https://www.facebook.com/share/1BhQLh7dQu/?mibextid=wwXIfr">Facebook</a>
+        <a href="https://tiktok.com/@ctncr1">TikTok</a>
+        <a href="https://linktr.ee/clevelandresources">Linktree</a>
+        <span>Friends: <a href="https://cbfp.news/?utm_source=ctncr.org&amp;utm_medium=referral&amp;utm_campaign=footer">CBFP.news</a></span>
+      </p>
+      <p class="fine-print">In an emergency, call <a href="tel:911">911</a>. For crisis support, call or text <a href="tel:988">988</a>.<br>&copy; <span id="year"></span> CTNCR. Listings are for information only and are not endorsements.</p>
+    </div>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="world-news.js"></script>
+  <script src="world.js"></script>
+</body>
+</html>

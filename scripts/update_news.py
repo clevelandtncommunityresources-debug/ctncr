@@ -1,7 +1,8 @@
 """Fetch the newest articles from our friends at CBFP.news (the Cleveland-Bradley
 Free Press) and write them to cbfp-news.js for the news section.
 
-Run by .github/workflows/update-events.yml every morning. To run it by hand:
+Run by .github/workflows/update-events.yml every morning. The home page shows
+the newest three; the Local News tab (local-news.html) shows them all. To run it by hand:
     python scripts/update_news.py
 """
 
@@ -16,7 +17,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 FEED = "https://cbfp.news/rss.xml"
-HOW_MANY = 3
+HOW_MANY = 12
 TZ = ZoneInfo("America/New_York")
 OUT = Path(__file__).resolve().parent.parent / "cbfp-news.js"
 
