@@ -2,7 +2,7 @@ name: Update world news
 
 on:
   schedule:
-    - cron: "43 * * * *" # every hour
+    - cron: "37 * * * *" # every hour
   workflow_dispatch: # lets you run it by hand from the Actions tab
 
 permissions:
